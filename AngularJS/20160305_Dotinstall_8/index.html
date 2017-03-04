@@ -1,0 +1,17 @@
+<!doctype html>
+<html ng-app="myApp">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
+    <script src="./myscript.js"></script>
+  </head>
+  <body>
+    <h1>AngularJSの入門</h1>
+    <div ng-controller="myController">
+      <form name="myForm" ng-submit="addUser()">
+        <p>Name:<input type="input" name="name" ng-model="user.name"></form></p>
+        <p><input type="submit" value="add"></p>
+      </form>
+      <pre>{{user|json}}</pre>
+    </div>
+  </body>
+</html>

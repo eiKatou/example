@@ -1,0 +1,24 @@
+<!doctype html>
+<html ng-app="myApp">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
+    <script src="./myscript.js"></script>
+    <style>
+      .even {
+        background-color: #ccc;
+      }
+      .odd {
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>AngularJSの入門</h1>
+    <div ng-controller="myController">
+      <p>{{users.length}}user</p>
+      <li ng-repeat="user in users" ng-class-even="'even'" ng-class-odd="'odd'">
+        　{{$index+1}}番目 {{$first}} {{$middle}} {{$last}} {{user.name}} さんは、 {{user.score}}点でした。
+      </li>
+    </div>
+  </body>
+</html>
