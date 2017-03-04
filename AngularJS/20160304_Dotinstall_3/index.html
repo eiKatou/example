@@ -1,0 +1,16 @@
+<!doctype html>
+<html ng-app="myApp">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
+    <script src="./myscript.js"></script>
+  </head>
+  <body>
+    <h1>AngularJSの入門</h1>
+    <div ng-controller="myController">
+      <p>{{users.length}}user</p>
+      <li ng-repeat="user in users">
+        {{user.name}} :: {{user.score}}
+      </li>
+    </div>
+  </body>
+</html>
