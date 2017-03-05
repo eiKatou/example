@@ -1,0 +1,40 @@
+<!doctype html>
+<html ng-app="myApp">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
+    <script src="./myscript.js"></script>
+  </head>
+  <body>
+    <h1>AngularJSの入門</h1>
+    <div ng-controller="myController">
+      <form novalidate name="myForm" ng-submit="addUser()">
+        <p>Name:<input type="input" name="name" ng-model="user.name" required ng-minlength="2" ng-maxlength="5">
+        <p><input type="submit" value="add">
+          <span ng-show="myForm.name.$error.required">Required!</span>
+          <span ng-show="myForm.name.$error.maxlength">Too long!</span>
+          <span ng-show="myForm.name.$error.minlength">Too short!</span>
+        </p>
+        <p>Score:<input type="number" name="score" ng-model="user.score">
+        <p>Email:<input type="email" name="email" ng-model="user.email">
+          <span ng-show="myForm.email.$error.email">Not valid email!</span>
+        </p>
+        <p>Web:<input type="url" name="url" ng-model="user.url">
+          <span ng-show="myForm.url.$error.url">Not valid url!</span>
+        </p>
+        <p>18+:<input type="checkbox" name="adult" ng-model="user.adult" ng-true-value="'adult'" ng-false-value="'child'"></p>
+        <p>Phone:
+          <input type="radio" ng-model="user.phone" value="iPhone"> iPhone
+          <input type="radio" ng-model="user.phone" value="Android"> Android
+        </p>
+        <p>Memo:
+          <textarea ng-model="user.memo" ng-maxlength="140"></textarea>
+          {{140-user.memo.length}}
+        </p>
+        <p>Color:
+          <select ng-model="user.color" ng-options="'label:'+color for color in ['red', 'blue', 'green']" ng-init="user.color='red'"></select>
+        </p>
+      </form>
+      <pre>{{user|json}}</pre>
+    </div>
+  </body>
+</html>
