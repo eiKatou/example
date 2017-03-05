@@ -1,0 +1,30 @@
+<!doctype html>
+<html ng-app="myApp">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
+    <script src="./myscript.js"></script>
+  </head>
+  <body>
+    <h1>AngularJSの入門</h1>
+    <div ng-controller="myController">
+      <p><input type="text" ng-model="user.input"/></p>
+      <button ng-click="hello()">Click Me</button>
+      <hr/>
+      <p>total: {{users.length}}user</p>
+      <hr/>
+      <p><input type="text" ng-model="query.name"/></p>
+      <li ng-repeat="user in users|filter:query">
+        {{user.name}} :: {{user.score}}
+      </li>
+      <hr/>
+      <p>下位5名
+        <li ng-repeat="user in users|orderBy:'score'|limitTo:5">
+          {{user.name}} :: {{user.score}}
+        </li>
+      </p>上位5名
+      <li ng-repeat="user in users|orderBy:'-score'|limitTo:5">
+        {{user.name}} :: {{user.score}}
+      </li>
+    </div>
+  </body>
+</html>
