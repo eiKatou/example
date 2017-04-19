@@ -30,5 +30,5 @@ docker-compose down
 http://localhost/
 
 ## PHP My Adminへのアクセス
-http://localhost:8080/
+http://localhost:8080/  
 wordpress/wordpressでログイン
