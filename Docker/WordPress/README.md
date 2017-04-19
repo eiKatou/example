@@ -6,8 +6,6 @@
 
 ## イメージの作成
 ```bash
-mkdir ~/wordpress/
-cd ~/wordpress/
 cd ~/wordpress
 docker build -t wordpress:20170419 ~/wordpress
 docker images
