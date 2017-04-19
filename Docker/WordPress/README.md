@@ -1,4 +1,11 @@
 # WordPress環境構築
+## Dockerfileとdocker-composeの概要
+Dockerfileは、zip extensionをインストール済みWordPressイメージを作成する。docker-compose.ymlは、以下の修正が入っている。
+- Dockerfileで作ったイメージを利用する
+- phpMyAdminが動くようにする
+- WordPressのデータ保存先をData Volumeにする
+- WordPressは80番ポートで動かすようにする（元は8000番ポート）
+
 ## Dockerfileとdocker-composeの準備
 ~/wordpress/配下に、以下のファイルを配置。
 - Dockerfile
