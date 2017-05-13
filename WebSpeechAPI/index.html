@@ -1,0 +1,94 @@
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Web Speech API</title>
+  <script>
+  var speech = new webkitSpeechRecognition();
+  speech.lang = "ja";
+  // speech.continuous = true;
+
+  document.addEventListener("DOMContentLoaded", function(){
+    var addKaigyouButton = document.getElementById('addKaigyouButton');
+    var addResultButton = document.getElementById('addResultButton');
+    var recStartButton = document.getElementById('recStartButton');
+    var recStopButton = document.getElementById('recStopButton');
+    var resultText = document.getElementById('resultText');
+    var recognizedText = document.getElementById('recognizedText');
+    var stateText = document.getElementById('stateText');
+
+    addResultButton.addEventListener('click', function() {
+      resultText.value = resultText.value + recognizedText.innerHTML;
+    }, false);
+    addKaigyouButton.addEventListener('click', function() {
+      resultText.value = resultText.value + '\n';
+    }, false);
+
+    recStartButton.addEventListener('click', function() {
+      speech.start();
+      stateText.innerHTML = "開始しました";
+      // alert("aaaa");
+    }, false);
+    recStopButton.addEventListener('click', function() {
+      speech.stop();
+      stateText.innerHTML = "停止しました";
+      // alert("aaaa");
+    }, false);
+
+    // speech.onresult = function(event){
+    //   var text = event.results[0][0].transcript;
+    //   resultText.value = resultText.value + text;
+    // };
+
+    // 音声入力で結果がない
+    speech.onnomatch = function(){
+      recognizedText.innerHTML = "もう一度試してください";
+    };
+    // 音声入力でエラー
+    speech.onerror= function(){
+      recognizedText.innerHTML = "エラー";
+    };
+    // 音声入力が終了した時
+    speech.onresult = function(event){
+      var results = event.results;
+      for (var i = event.resultIndex; i<results.length; i++){
+        //認識の最終結果
+        if(results[i].isFinal){
+          recognizedText.innerHTML = results[i][0].transcript;
+        }
+        //認識の中間結果
+        else{
+          recognizedText.innerHTML = results[i][0].transcript;
+        }
+      }
+    };
+
+    //話し声の認識中
+    speech.onsoundstart = function(){
+        stateText.innerHTML = "認識中";
+    };
+    //話し声の認識終了
+    speech.onsoundend = function(){
+        stateText.innerHTML = "停止中";
+    };
+
+  });
+  </script>
+</head>
+
+<body>
+文章<br/>
+<textarea id="resultText" cols="100" rows="10">
+</textarea>
+<br/><br/>
+入力結果：<br/>
+<span id="recognizedText"></span><br/>
+<input type="button" id="addResultButton" value="入力結果を追加" />
+<input type="button" id="addKaigyouButton" value="改行を追加" />
+<br/>
+<br/>
+状態：<span id="stateText"></span><br/>
+<input type="button" id="recStartButton" value="録音開始" />
+<input type="button" id="recStopButton" value="録音停止" />
+
+</body>
+</html>
