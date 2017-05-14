@@ -19,3 +19,7 @@ function getPromise() {
 getPromise()
   .then(value => console.log(value))
   .catch(error => console.error(error));
+
+Promise.resolve(1)
+  .then((value) => console.log(`値は${value}`))
+  .then(() => console.log("終了"));
