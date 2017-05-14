@@ -1,0 +1,19 @@
+<html>
+
+  <head>
+    <meta charset="UTF-8" />
+    <title>Promise Sample</title>
+    <script type="text/javascript" src="xhr-promise.js"></script>
+  </head>
+
+  <body>
+    <input type="button" id="xhrButton" value="xhr" />
+
+    <script>
+      var xhrButton = document.getElementById('xhrButton');
+      xhrButton.addEventListener('click', function() {
+        getData();
+      }, false);
+    </script>
+  </body>
+</html>
