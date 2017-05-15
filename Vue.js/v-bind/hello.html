@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vue hello world.</title>
+  <meta charset="utf-8" />
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <!-- HTMLを書く -->
+  <div id="aaa">
+    <a v-bind:href="url" v-bind:target="target">{{text}}</a>
+  </div>
+
+  <script type="text/javascript">
+    var app = new Vue({
+      el:"#aaa",
+      data:{
+        url:"https://www.google.co.jp/",
+        target:"blank",
+        text:"Google先生へ"
+      }
+    });
+  </script>
+</body>

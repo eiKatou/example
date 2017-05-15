@@ -1,0 +1,14 @@
+https://jp.vuejs.org/v2/guide/index.html
+
+<script src="https://unpkg.com/vue"></script>
+
+ディレクティブ
+・v-bind：
+・v-if
+・v-for
+・v-on：イベントリスナを加え、Vue インスタンスのメソッドを呼び出す
+・v-model：入力とアプリケーションの状態の双方向バインディング
+
+コンポーネント
+・カスタム要素
+
