@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vue hello world.</title>
+  <meta charset="utf-8" />
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <!-- HTMLを書く -->
+  <div id="aaa">
+    <span>{{ message }}</span><br/>
+    <span>{{ reversedMessage }}</span><br/><br/>
+    <button v-on:click="say('hi')">Say hi</button>
+  </div>
+
+  <script type="text/javascript">
+    var app = new Vue({
+      el:"#aaa",
+      data:{
+        message:"Hello"
+      },
+      computed:{
+        reversedMessage: function(){
+          return this.message.split('').reverse().join('');
+        }
+      },
+      methods:{
+        say: function(message) {
+          this.message = message;
+        }
+      }
+    });
+  </script>
+</body>

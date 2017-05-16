@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vue hello world.</title>
+  <meta charset="utf-8" />
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <!-- HTMLを書く -->
+  <div id="aaa">
+    <span>{{ message }}</span><br/>
+    <button v-on:click="getData">Get data</button>
+  </div>
+
+  <script type="text/javascript">
+    var app = new Vue({
+      el:"#aaa",
+      data:{
+        message:"Hello"
+      },
+      methods:{
+        getData: function() {
+          this.message = "取得中";
+          axios.get('http://httpbin.org/get')
+            .then(res => {
+              console.log(res.status, res.statusText, res.data);
+              this.message = res.data;
+            }).catch(err => {
+              throw err;
+            });
+        }
+      }
+    });
+  </script>
+</body>
