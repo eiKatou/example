@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vue hello world.</title>
+  <meta charset="utf-8" />
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+<body>
+  <!-- HTMLを書く -->
+  <div id="app">
+    <h1>Hello App!</h1>
+    <p>
+      <!-- ナビゲーションに router-link コンポーネントを使う -->
+      <!-- リンク先を `to` プロパティに指定します -->
+      <!-- デフォルトで <router-link> は `<a>` タグとしてレンダリングされます -->
+      <router-link to="/foo">Go to Foo</router-link>
+      <router-link to="/bar">Go to Bar</router-link>
+    </p>
+    <!-- ルートアウトレット -->
+    <!-- ルートとマッチしたコンポーネントがここへレンダリングされます -->
+    <router-view></router-view>
+  </div>
+
+  <!-- JavaScriptを書く -->
+  <script type="text/javascript">
+    const Foo = { template: '<div>foo</div>' }
+    const Bar = { template: '<div>bar</div>' }
+    
+    const routes = [
+      { path: '/foo', component: Foo },
+      { path: '/bar', component: Bar }
+    ]
+    const router = new VueRouter({
+      routes // routes: routes の短縮表記
+    })
+    const app = new Vue({
+      router
+    }).$mount('#app')
+  </script>
+</body>
