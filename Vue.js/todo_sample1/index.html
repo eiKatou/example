@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TODO Sample</title>
+  <meta charset="utf-8" />
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+<body>
+  <!-- HTMLを書く -->
+  <div id="app">
+    <h1>Hello App!</h1>
+    <p>
+      <router-link to="/foo">Go to Foo</router-link>
+      <router-link to="/bar">Go to Bar</router-link>
+    </p>
+
+    <router-view v-bind:todos="todos" ></router-view>
+  </div>
+
+  <!-- JavaScriptを書く -->
+  <script type="text/x-template" id="hello-world-template">
+    <!-- templateの中は1つの要素のみ -->
+    <div>
+      <p>{{ message }}</p>
+
+      <p>TODO一覧</p>
+      <template v-for="item in todos" >
+        <span>{{ item }}<br/></span>
+      </template>
+
+      <p>TODO一覧その2</p>
+      <span v-for="item in todos">{{ item }}<br/></span>
+     </div>
+  </script>
+  <script type="text/javascript">
+    const Todos = {
+      template: '#hello-world-template',
+      props: ['todos'],
+      data: function (){
+        return { message : 'hello' }
+      }
+    }
+    const Foo = { template: '<div>foo</div>' }
+    const Bar = { template: '<div>bar</div>' }
+    
+    const routes = [
+      { path: '/', component: Todos },
+      { path: '/foo', component: Foo },
+      { path: '/bar', component: Bar }
+    ]
+    const router = new VueRouter({
+      routes // routes: routes の短縮表記
+    })
+    const app = new Vue({
+      router,
+      message: "message",
+      data: {
+        todos: [
+          "todo1",
+          "todo2",
+          "todo3"
+        ]
+      }
+    }).$mount('#app')
+  </script>
+</body>
