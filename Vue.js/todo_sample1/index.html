@@ -14,7 +14,9 @@
       <router-link to="/">Go to Top</router-link>
     </p>
 
-    <router-view v-bind:todos="todos" ></router-view>
+    <router-view 
+      v-bind:todos="todos"
+      @set-new='setNewTodo' ></router-view>
   </div>
 
   <!-- トップページのテンプレート -->
@@ -33,10 +35,10 @@
     <div>
       <p>TODO新規作成</p>
       タスク名<br>
-      <input type="text" name="title" size="30" maxlength="20"><br><br>
+      <input type="text" name="title" size="30" maxlength="20" v-model="title"><br><br>
       詳細<br>
-      <input type="text" name="detail" size="45" maxlength="40"><br><br>
-      <input type="button" value="作成する" v-on:click="">
+      <input type="text" name="detail" size="45" maxlength="40" v-model="detail"><br><br>
+      <input type="button" value="作成する" v-on:click="$emit('set-new', title, detail)">
      </div>
   </script>
 
@@ -66,7 +68,15 @@
 
     // 新規作成画面のコンポーネント
     const New = { 
-      template: '#todo-new-template'
+      template: '#todo-new-template',
+      data: function (){
+        return {
+          title: "",
+          detail: ""
+         }
+      },
+      methods: {
+      }
     }
 
     // 確認画面のコンポーネント
@@ -90,9 +100,16 @@
           "todo1",
           "todo2",
           "todo3"
-        ]
+        ],
+        newTodo: {title:"", detail:""}
       },
       methods:{
+        setNewTodo: function(t, d) {
+          console.log("test"+t+":"+d);
+          this.newTodo.title = t;
+          this.newTodo.detail = d;
+          console.log("this"+this.newTodo.title+":"+this.newTodo.detail);
+        }
       }
     }).$mount('#app')
   </script>
