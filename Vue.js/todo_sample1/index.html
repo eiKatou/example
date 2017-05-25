@@ -16,7 +16,7 @@
 
     <router-view 
       v-bind:todos="todos"
-      @set-new='setNewTodo' ></router-view>
+      v-on:set-new='setNewTodo' ></router-view>
   </div>
 
   <!-- トップページのテンプレート -->
@@ -38,7 +38,7 @@
       <input type="text" name="title" size="30" maxlength="20" v-model="title"><br><br>
       詳細<br>
       <input type="text" name="detail" size="45" maxlength="40" v-model="detail"><br><br>
-      <input type="button" value="作成する" v-on:click="$emit('set-new', title, detail)">
+      <input type="button" value="作成する" v-on:click="buttonClick()">
      </div>
   </script>
 
@@ -76,6 +76,9 @@
          }
       },
       methods: {
+        buttonClick: function() {
+          this.$emit('set-new', this.title, this.detail)
+        }
       }
     }
 
@@ -105,10 +108,10 @@
       },
       methods:{
         setNewTodo: function(t, d) {
-          console.log("test"+t+":"+d);
+          console.log("test "+t+":"+d);
           this.newTodo.title = t;
           this.newTodo.detail = d;
-          console.log("this"+this.newTodo.title+":"+this.newTodo.detail);
+          console.log("this "+this.newTodo.title+":"+this.newTodo.detail);
         }
       }
     }).$mount('#app')
