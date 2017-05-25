@@ -16,7 +16,7 @@
 
     <router-view 
       v-bind:todos="todos"
-      v-on:set-new='setNewTodo' ></router-view>
+      v-on:set-new-todo='setNewTodo' ></router-view>
   </div>
 
   <!-- トップページのテンプレート -->
@@ -77,7 +77,7 @@
       },
       methods: {
         buttonClick: function() {
-          this.$emit('set-new', this.title, this.detail)
+          this.$emit('set-new-todo', this.title, this.detail)
         }
       }
     }
