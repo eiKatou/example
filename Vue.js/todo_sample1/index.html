@@ -9,18 +9,16 @@
 <body>
   <!-- HTMLを書く -->
   <div id="app">
-    <h1>Hello App!</h1>
+    <h1>初めてのTODOアプリ</h1>
     <p>
-      <router-link to="/foo">Go to Foo</router-link>
-      <router-link to="/bar">Go to Bar</router-link>
+      <router-link to="/">Go to Top</router-link>
     </p>
 
     <router-view v-bind:todos="todos" ></router-view>
   </div>
 
-  <!-- JavaScriptを書く -->
-  <script type="text/x-template" id="hello-world-template">
-    <!-- templateの中は1つの要素のみ -->
+  <!-- トップページのテンプレート -->
+  <script type="text/x-template" id="todo-list-template">
     <div>
       <p>TODO一覧</p>
       <template v-for="item in todos" >
@@ -29,26 +27,57 @@
       <input type="button" value="新規作成" v-on:click="goNewTask()">
      </div>
   </script>
+
+  <!-- 新規作成画面のテンプレート -->
+  <script type="text/x-template" id="todo-new-template">
+    <div>
+      <p>TODO新規作成</p>
+      タスク名<br>
+      <input type="text" name="title" size="30" maxlength="20"><br><br>
+      詳細<br>
+      <input type="text" name="detail" size="45" maxlength="40"><br><br>
+      <input type="button" value="作成する" v-on:click="">
+     </div>
+  </script>
+
+  <!-- 新規作成確認画面のテンプレート -->
+  <script type="text/x-template" id="todo-new-confirm-template">
+    <div>
+      <p>新規TODOの確認画面</p>
+      <input type="button" value="OK" v-on:click="">
+      <input type="button" value="戻る" v-on:click="">
+     </div>
+  </script>
+
   <script type="text/javascript">
+    // トップページのコンポーネント
     const Todos = {
-      template: '#hello-world-template',
+      template: '#todo-list-template',
       props: ['todos'],
       data: function (){
         return { }
       },
       methods: {
         goNewTask: function() {
-          router.push('/foo');
+          router.push('/new');
         }
       }
     }
-    const Foo = { template: '<div>foo</div>' }
-    const Bar = { template: '<div>bar</div>' }
+
+    // 新規作成画面のコンポーネント
+    const New = { 
+      template: '#todo-new-template'
+    }
+
+    // 確認画面のコンポーネント
+    const Confirm = { 
+      template: '#todo-new-confirm-template'
+    }
     
     const routes = [
       { path: '/', component: Todos },
-      { path: '/foo', component: Foo },
-      { path: '/bar', component: Bar }
+      { path: '/new', component: New },
+      { path: '/newConfirm', component: Confirm }
     ]
     const router = new VueRouter({
       routes // routes: routes の短縮表記
