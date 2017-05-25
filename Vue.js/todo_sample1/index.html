@@ -11,7 +11,6 @@
   <div id="app">
     <h1>Hello App!</h1>
     <p>
-      <input type="button" value="新規作成" v-on:click="goNewTask()">
       <router-link to="/foo">Go to Foo</router-link>
       <router-link to="/bar">Go to Bar</router-link>
     </p>
@@ -23,15 +22,11 @@
   <script type="text/x-template" id="hello-world-template">
     <!-- templateの中は1つの要素のみ -->
     <div>
-      <p>{{ message }}</p>
-
       <p>TODO一覧</p>
       <template v-for="item in todos" >
         <span>{{ item }}<br/></span>
       </template>
-
-      <p>TODO一覧その2</p>
-      <span v-for="item in todos">{{ item }}<br/></span>
+      <input type="button" value="新規作成" v-on:click="goNewTask()">
      </div>
   </script>
   <script type="text/javascript">
@@ -39,7 +34,12 @@
       template: '#hello-world-template',
       props: ['todos'],
       data: function (){
-        return { message : 'hello' }
+        return { }
+      },
+      methods: {
+        goNewTask: function() {
+          router.push('/foo');
+        }
       }
     }
     const Foo = { template: '<div>foo</div>' }
@@ -64,9 +64,6 @@
         ]
       },
       methods:{
-        goNewTask: function() {
-          router.push('/foo');
-        }
       }
     }).$mount('#app')
   </script>
