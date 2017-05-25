@@ -16,7 +16,10 @@
 
     <router-view 
       v-bind:todos="todos"
-      v-on:set-new-todo='setNewTodo' ></router-view>
+      v-bind:newtodo="newTodo"
+      v-on:set-new-todo='setNewTodo'
+      v-on:add-new-todo='addNewTodo'
+       ></router-view>
   </div>
 
   <!-- トップページのテンプレート -->
@@ -45,9 +48,14 @@
   <!-- 新規作成確認画面のテンプレート -->
   <script type="text/x-template" id="todo-new-confirm-template">
     <div>
-      <p>新規TODOの確認画面</p>
-      <input type="button" value="OK" v-on:click="">
-      <input type="button" value="戻る" v-on:click="">
+      <p>
+        タスク名：<span>{{ newtodo.title }}</span><br>
+        詳細：<span>{{ newtodo.detail }}</span><br>
+      <p>
+      <p>本当にこのタスクを作成しますか？<br>
+        <input type="button" value="OK" v-on:click="okButtonClick">
+        <input type="button" value="戻る" v-on:click="cancelButtonClick">
+      </p>
      </div>
   </script>
 
@@ -77,14 +85,29 @@
       },
       methods: {
         buttonClick: function() {
+          console.log("new button click");
           this.$emit('set-new-todo', this.title, this.detail)
+          router.push('/newConfirm');
         }
       }
     }
 
     // 確認画面のコンポーネント
     const Confirm = { 
-      template: '#todo-new-confirm-template'
+      template: '#todo-new-confirm-template',
+      props: ['newtodo'],
+      methods: {
+        okButtonClick: function() {
+          console.log("ok button click");
+          this.$emit('add-new-todo', this.newtodo.title, this.newtodo.detail);
+          router.push('/');
+        },
+        cancelButtonClick: function() {
+          console.log("cancel button click");
+          router.go(-1); // 1つ戻る
+          // TODO 1つ戻った時に、前の入力を表示する
+        }
+      }
     }
     
     const routes = [
@@ -107,11 +130,14 @@
         newTodo: {title:"", detail:""}
       },
       methods:{
+        addNewTodo: function(t, d) {
+          console.log("addNewTodo "+t+":"+d);
+          this.todos.push(t);
+        },
         setNewTodo: function(t, d) {
-          console.log("test "+t+":"+d);
+          console.log("setNewTodo "+t+":"+d);
           this.newTodo.title = t;
           this.newTodo.detail = d;
-          console.log("this "+this.newTodo.title+":"+this.newTodo.detail);
         }
       }
     }).$mount('#app')
