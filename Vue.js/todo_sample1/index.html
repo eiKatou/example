@@ -71,16 +71,21 @@
         goNewTask: function() {
           router.push('/new');
         }
+      },
+      created: function () {
+        console.log("created setNewTodo");
+        this.$emit('set-new-todo', '', '');
       }
     }
 
     // 新規作成画面のコンポーネント
     const New = { 
       template: '#todo-new-template',
+      props: ['newtodo'],
       data: function (){
         return {
-          title: "",
-          detail: ""
+          title: this.newtodo.title,
+          detail: this.newtodo.detail
          }
       },
       methods: {
@@ -105,7 +110,6 @@
         cancelButtonClick: function() {
           console.log("cancel button click");
           router.go(-1); // 1つ戻る
-          // TODO 1つ戻った時に、前の入力を表示する
         }
       }
     }
