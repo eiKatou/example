@@ -17,6 +17,7 @@
     <router-view 
       v-bind:todos="todos"
       v-on:add-new-todo='addNewTodo'
+      v-on:edit-new-todo='editNewTodo'
        ></router-view>
   </div>
 
@@ -54,8 +55,8 @@
         詳細：<span>{{ this.detail }}</span><br>
       <p>
       <p>本当にこのタスクを作成しますか？<br>
-        <input type="button" value="OK" v-on:click="okButtonClick">
-        <input type="button" value="戻る" v-on:click="cancelButtonClick">
+        <input type="button" value="OK" v-on:click="okButtonClick()">
+        <input type="button" value="戻る" v-on:click="cancelButtonClick()">
       </p>
      </div>
   </script>
@@ -64,6 +65,9 @@
   <script type="text/x-template" id="todo-edit-template">
     <div>
       <p>編集画面</p>
+      タスク名<br>
+      <input type="text" name="title" size="30" maxlength="20" v-model="title"><br><br>
+      <input type="button" value="編集完了する" v-on:click="okButtonClick()">
     </div>
   </script>
 
@@ -150,15 +154,22 @@
     // 編集画面のコンポーネント
     const Edit = { 
       template: '#todo-edit-template',
+      props: ['todos'],
       data: function (){
+        var index = this.$router.currentRoute.params.item;
         return {
-          title: "", detail: ""
+          title: this.todos[index]
          }
       },
       methods: {
+        okButtonClick: function() {
+          console.log("ok button click");
+          var index = this.$router.currentRoute.params.item;
+          this.$emit('edit-new-todo', index, this.title);
+          router.push('/');
+        }
       },
       created: function() {
-        console.log("edit title is " + this.$router.currentRoute.params.item);
       }
     }
     
@@ -185,6 +196,10 @@
         addNewTodo: function(t, d) {
           console.log("addNewTodo "+t+":"+d);
           this.todos.push(t);
+        },
+        editNewTodo: function(index, title) {
+          console.log("editNewTodo "+index+":"+title);
+          this.todos[index] = title;
         }
       }
     }).$mount('#app')
