@@ -24,8 +24,11 @@
   <script type="text/x-template" id="todo-list-template">
     <div>
       <p>TODO一覧</p>
-      <template v-for="item in todos" >
-        <span>{{ item }}<br/></span>
+      <template v-for="(item, index) in todos" >
+        <span>
+          {{ item }}  
+          <router-link :to="{ name:'edit', params:{item:index} }">edit</router-link><br/>
+        </span>
       </template>
       <input type="button" value="新規作成" v-on:click="goNewTask()">
      </div>
@@ -55,6 +58,13 @@
         <input type="button" value="戻る" v-on:click="cancelButtonClick">
       </p>
      </div>
+  </script>
+
+  <!-- 編集画面のテンプレート -->
+  <script type="text/x-template" id="todo-edit-template">
+    <div>
+      <p>編集画面</p>
+    </div>
   </script>
 
   <script type="text/javascript">
@@ -136,11 +146,27 @@
         this.detail = store.todo.detail;
       }
     }
+
+    // 編集画面のコンポーネント
+    const Edit = { 
+      template: '#todo-edit-template',
+      data: function (){
+        return {
+          title: "", detail: ""
+         }
+      },
+      methods: {
+      },
+      created: function() {
+        console.log("edit title is " + this.$router.currentRoute.params.item);
+      }
+    }
     
     const routes = [
       { path: '/', component: Todos },
       { path: '/new', component: New },
-      { path: '/newConfirm', component: Confirm }
+      { path: '/newConfirm', component: Confirm },
+      { path: '/edit/:item', name:'edit', component: Edit }
     ]
     const router = new VueRouter({
       routes // routes: routes の短縮表記
