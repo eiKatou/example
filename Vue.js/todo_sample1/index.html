@@ -16,8 +16,6 @@
 
     <router-view 
       v-bind:todos="todos"
-      v-bind:newtodo="newTodo"
-      v-on:set-new-todo='setNewTodo'
       v-on:add-new-todo='addNewTodo'
        ></router-view>
   </div>
@@ -49,8 +47,8 @@
   <script type="text/x-template" id="todo-new-confirm-template">
     <div>
       <p>
-        タスク名：<span>{{ newtodo.title }}</span><br>
-        詳細：<span>{{ newtodo.detail }}</span><br>
+        タスク名：<span>{{ this.title }}</span><br>
+        詳細：<span>{{ this.detail }}</span><br>
       <p>
       <p>本当にこのタスクを作成しますか？<br>
         <input type="button" value="OK" v-on:click="okButtonClick">
@@ -60,6 +58,21 @@
   </script>
 
   <script type="text/javascript">
+    var store = {
+      todo: {
+        title: '',
+        detail: ''
+      },
+      setTodo (title, detail) {
+        this.todo.title = title;
+        this.todo.detail = detail;
+      },
+      clearTodo () {
+        this.todo.title = ''
+        this.todo.detail = ''
+      }
+    }
+
     // トップページのコンポーネント
     const Todos = {
       template: '#todo-list-template',
@@ -69,48 +82,58 @@
       },
       methods: {
         goNewTask: function() {
+          store.clearTodo();
           router.push('/new');
         }
       },
       created: function () {
-        console.log("created setNewTodo");
-        this.$emit('set-new-todo', '', '');
       }
     }
 
     // 新規作成画面のコンポーネント
     const New = { 
       template: '#todo-new-template',
-      props: ['newtodo'],
       data: function (){
         return {
-          title: this.newtodo.title,
-          detail: this.newtodo.detail
+          title: "", detail: ""
          }
       },
       methods: {
         buttonClick: function() {
           console.log("new button click");
-          this.$emit('set-new-todo', this.title, this.detail)
+          console.log("new todo is " + this.title + "," + this.detail);
+          store.setTodo(this.title, this.detail);
           router.push('/newConfirm');
         }
+      },
+      created: function () {
+        this.title = store.todo.title;
+        this.detail = store.todo.detail;
       }
     }
 
     // 確認画面のコンポーネント
     const Confirm = { 
       template: '#todo-new-confirm-template',
-      props: ['newtodo'],
+      data: function (){
+        return {
+          title: "", detail: ""
+         }
+      },
       methods: {
         okButtonClick: function() {
           console.log("ok button click");
-          this.$emit('add-new-todo', this.newtodo.title, this.newtodo.detail);
+          this.$emit('add-new-todo', this.title, this.detail);
           router.push('/');
         },
         cancelButtonClick: function() {
           console.log("cancel button click");
           router.go(-1); // 1つ戻る
         }
+      },
+      created: function () {
+        this.title = store.todo.title;
+        this.detail = store.todo.detail;
       }
     }
     
@@ -130,18 +153,12 @@
           "todo1",
           "todo2",
           "todo3"
-        ],
-        newTodo: {title:"", detail:""}
+        ]
       },
       methods:{
         addNewTodo: function(t, d) {
           console.log("addNewTodo "+t+":"+d);
           this.todos.push(t);
-        },
-        setNewTodo: function(t, d) {
-          console.log("setNewTodo "+t+":"+d);
-          this.newTodo.title = t;
-          this.newTodo.detail = d;
         }
       }
     }).$mount('#app')

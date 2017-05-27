@@ -1,0 +1,24 @@
+      methods: {
+        buttonClick: function() {
+          console.log("new button click");
+          this.$emit('set-new-todo', this.title, this.detail)
+          bus.$emit('NEWTODO', this.title);
+          router.push('/newConfirm');
+        }
+      },
+      created: function () {
+        bus.$on('GETNEWTODO', function(name) {
+          console.log('GETNEWTODO' + name);
+          bus.$emit('SETNEWTODO', this.title);
+        });
+
+      created: function () {
+        console.log("created");
+        bus.$on('NEWTODO', function(name) {
+          console.log('NEWTODO' + name);
+        });
+        bus.$on('SETNEWTODO', function(name) {
+          console.log('SETNEWTODO' + name);
+        });
+        bus.$emit('GETNEWTODO');
+      }
