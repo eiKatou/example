@@ -4,23 +4,30 @@
     <template v-for="(item, index) in todos" >
       <span>
         {{ item }}  
-        <router-link :to="{ name:'edit', params:{item:index} }">edit</router-link><br/>
+        <!-- <router-link :to="{ name:'edit', params:{item:index} }">edit</router-link> --><br/>
       </span>
     </template>
-    <input type="button" value="新規作成" v-on:click="goNewTask()">
+    <input type="button" value="新規作成" @click="goNewTask()">
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'top',
-  props: ['todos'],
   methods: {
+    ...mapActions([
+    ]),
     goNewTask: function () {
-      // store.clearTodo();
-      // this.router.push('/new')
       this.$router.push('Hello')
     }
+  },
+  computed: mapGetters({
+    todos: 'allTodos'
+  }),
+  created () {
+    this.$store.dispatch('getAllTodos')
   }
 }
 </script>
