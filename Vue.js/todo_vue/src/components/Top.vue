@@ -4,7 +4,7 @@
     <template v-for="(item, index) in todos" >
       <span>
         {{ item }}  
-        <!-- <router-link :to="{ name:'edit', params:{item:index} }">edit</router-link> --><br/>
+        <router-link :to="{ name:'edit', params:{index:index} }">edit</router-link><br/>
       </span>
     </template>
     <input type="button" value="新規作成" @click="goNewTask()">

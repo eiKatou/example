@@ -9,7 +9,10 @@ const state = {
 // getters
 const getters = {
   allTodos: state => state.all,
-  newTodo: state => state.new
+  newTodo: state => state.new,
+  todoByIndex: state => index => {
+    return state.all[index]
+  }
 }
 
 // actions
@@ -22,6 +25,9 @@ const actions = {
   },
   addNewTodo ({commit}, todo) {
     commit(types.RECEIVE_ADDNEWTODO, todo)
+  },
+  setTodo ({commit}, todo, index) {
+    commit(types.RECEIVE_SETTODO, todo, index)
   }
 }
 
@@ -34,8 +40,10 @@ const mutations = {
     state.new = newTodo
   },
   [types.RECEIVE_ADDNEWTODO] (state, newTodo) {
-    console.log('push ' + newTodo)
     state.all.push(newTodo)
+  },
+  [types.RECEIVE_SETTODO] (state, todo, index) {
+    state.all.splice(index, 1, todo)
   }
 }
 
