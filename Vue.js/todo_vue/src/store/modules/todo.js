@@ -26,8 +26,8 @@ const actions = {
   addNewTodo ({commit}, todo) {
     commit(types.RECEIVE_ADDNEWTODO, todo)
   },
-  setTodo ({commit}, todo, index) {
-    commit(types.RECEIVE_SETTODO, todo, index)
+  setTodo ({commit}, { todo, index }) {
+    commit(types.RECEIVE_SETTODO, {todo: todo, index: index})
   }
 }
 
@@ -42,7 +42,7 @@ const mutations = {
   [types.RECEIVE_ADDNEWTODO] (state, newTodo) {
     state.all.push(newTodo)
   },
-  [types.RECEIVE_SETTODO] (state, todo, index) {
+  [types.RECEIVE_SETTODO] (state, {todo, index}) {
     state.all.splice(index, 1, todo)
   }
 }

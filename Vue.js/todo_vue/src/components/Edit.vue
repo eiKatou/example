@@ -25,8 +25,8 @@ export default {
     ]),
     okButtonClick: function () {
       console.log('ok button click')
-      let index = this.$router.currentRoute.params.item
-      this.setTodo(this.editTodo, index)
+      let index = this.$router.currentRoute.params.index
+      this.setTodo({todo: this.editTodo, index: index})
       this.$router.push('/')
     }
   },
