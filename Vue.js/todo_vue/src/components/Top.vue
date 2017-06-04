@@ -20,7 +20,7 @@ export default {
     ...mapActions([
     ]),
     goNewTask: function () {
-      this.$router.push('Hello')
+      this.$router.push('new')
     }
   },
   computed: mapGetters({
