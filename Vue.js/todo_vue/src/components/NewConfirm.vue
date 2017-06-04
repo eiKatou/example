@@ -19,10 +19,10 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'new',
   methods: {
-    ...mapActions({
-      setNewTodo: 'setNewTodo',
-      addNewTodo: 'addNewTodo'
-    }),
+    ...mapActions([
+      'setNewTodo',
+      'addNewTodo'
+    ]),
     okButtonClick: function () {
       console.log('ok button click')
       this.addNewTodo(this.$store.getters.newTodo)
@@ -35,9 +35,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      newTodo: 'newTodo'
-    })
+    ...mapGetters([
+      'newTodo'
+    ])
   },
   created () {
   }
