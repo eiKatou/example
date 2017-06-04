@@ -7,37 +7,29 @@
 </template>
 
 <script>
-// import * as types from '../store/mutation-types'
-import { mapGetters, mapActions } from 'vuex'
+import * as types from '../store/mutation-types'
 
 export default {
   name: 'new',
   methods: {
-    ...mapActions([
-    ]),
     buttonClick: function () {
       console.log('new button click')
-      console.log('new todo is ' + this.$store.state.new)
-      // store.setTodo(this.title, this.detail)
+      console.log('new todo is ' + this.$store.getters.newTodo)
       // router.push('/newConfirm');
     }
   },
-  computed: mapGetters({
-    todo: 'newTodo'
-  }),
-  // computed: {
-  //   message: {
-  //     get () {
-  //       return this.$store.state.message
-  //       // return '1222'
-  //     },
-  //     set (value) {
-  //       this.$store.commit(types.RECEIVE_NEWTODO, value)
-  //     }
-  //   }
-  // },
+  computed: {
+    todo: {
+      get () {
+        return this.$store.getters.newTodo
+      },
+      set (value) {
+        this.$store.commit(types.RECEIVE_NEWTODO, value)
+      }
+    }
+  },
   created () {
-    this.$store.dispatch('setNewTodo', '')
+    // this.$store.dispatch('setNewTodo', '')
   }
 }
 </script>

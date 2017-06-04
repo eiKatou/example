@@ -3,7 +3,7 @@ import * as types from '../mutation-types'
 // initial state
 const state = {
   all: [],
-  new: '111'
+  new: ''
 }
 
 // getters
