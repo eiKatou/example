@@ -27,7 +27,7 @@ export default {
     todos: 'allTodos'
   }),
   created () {
-    this.$store.dispatch('getAllTodos')
+    // this.$store.dispatch('getAllTodos')
   }
 }
 </script>

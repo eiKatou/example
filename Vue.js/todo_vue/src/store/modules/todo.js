@@ -2,7 +2,7 @@ import * as types from '../mutation-types'
 
 // initial state
 const state = {
-  all: [],
+  all: ['買い物に行く', '宿題をする'],
   new: ''
 }
 
@@ -19,6 +19,9 @@ const actions = {
   },
   setNewTodo ({commit}, todoTitle) {
     commit(types.RECEIVE_NEWTODO, todoTitle)
+  },
+  addNewTodo ({commit}, todo) {
+    commit(types.RECEIVE_ADDNEWTODO, todo)
   }
 }
 
@@ -29,7 +32,10 @@ const mutations = {
   },
   [types.RECEIVE_NEWTODO] (state, newTodo) {
     state.new = newTodo
-    console.log('state.new is ' + state.new)
+  },
+  [types.RECEIVE_ADDNEWTODO] (state, newTodo) {
+    console.log('push ' + newTodo)
+    state.all.push(newTodo)
   }
 }
 

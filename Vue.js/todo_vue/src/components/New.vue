@@ -15,7 +15,7 @@ export default {
     buttonClick: function () {
       console.log('new button click')
       console.log('new todo is ' + this.$store.getters.newTodo)
-      // router.push('/newConfirm');
+      this.$router.push('/newConfirm')
     }
   },
   computed: {

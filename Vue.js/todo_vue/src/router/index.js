@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import Top from '@/components/Top'
 import New from '@/components/New'
+import NewConfirm from '@/components/NewConfirm'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/new',
       name: 'new',
       component: New
+    },
+    {
+      path: '/newConfirm',
+      name: 'newConfirm',
+      component: NewConfirm
     }
   ]
 })
