@@ -5,3 +5,5 @@ Firebaseのサンプルアプリです。
 ```sh
 firebase serve
 ```
+
+http://localhost:5000/
