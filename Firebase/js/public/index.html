@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vue hello world.</title>
+  <meta charset="utf-8" />
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-messaging.js"></script>
+</head>
+<body>
+  <a href="https://jp.vuejs.org/v2/guide/index.html">https://jp.vuejs.org/v2/guide/index.html</a>
+  <div id="app">
+    {{ message }}
+  </div>
+  <div id="app-4">
+    <ol>
+      <li v-for="todo in todos">
+        {{ todo.text }}
+      </li>
+    </ol>
+  </div>
+  <div id="app-7">
+    <ol>
+      <!-- todo オブジェクトによって各 todo-item を提供します。それは、内容を動的にできるように表します。-->
+      <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
+    </ol>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyAVHtkJDx8E342I_CdHJdrFVQGMuJxQub0",
+      authDomain: "todo-63ab1.firebaseapp.com",
+      databaseURL: "https://todo-63ab1.firebaseio.com",
+      projectId: "todo-63ab1",
+      storageBucket: "todo-63ab1.appspot.com",
+      messagingSenderId: "226663718159"
+    };
+    firebase.initializeApp(config);
+  </script>
+
+  <script type="text/javascript">  
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!'
+      }
+    })
+    var app4 = new Vue({
+      el: '#app-4',
+      data: {
+        todos: [
+          { text: 'Learn JavaScript' },
+          { text: 'Learn Vue' },
+          { text: 'Build something awesome' }
+        ]
+      }
+    })
+    
+    Vue.component('todo-item', {
+      props: ['todo'],
+      template: '<li>{{ todo.text }}</li>'
+    })
+    var app7 = new Vue({
+      el: '#app-7',
+      data: {
+        groceryList: [
+          { text: 'Vegetables' },
+          { text: 'Cheese' },
+          { text: 'Whatever else humans are supposed to eat' }
+        ]
+      }
+    })
+  </script>
+</body>
