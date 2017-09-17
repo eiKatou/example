@@ -17,6 +17,8 @@ public class Main {
 		sample3();
 		System.out.println("\nsample4");
 		sample4();
+		System.out.println("\nsample5");
+		sample5();
 	}
 
 	public static void sample1() {
@@ -65,6 +67,15 @@ public class Main {
 			// filterで、yから始まる文字列だった時のみ出力（xxaなのでyから始まらない）
 //			.filter(s -> s.startsWith("y"))
 			.filter(s -> s.startsWith("x"))
+			.ifPresent(s -> System.out.println(s));
+	}
+
+	public static void sample5() {
+		Stream<String> stream = Stream.of("taro", "jiro", "hanako", "hiro");
+		stream.max(Comparator.naturalOrder())
+			.filter(name -> name.startsWith("ta"))
+//			.filter(name -> name.startsWith("ji"))
+			.map(name -> "max name is " + name)
 			.ifPresent(s -> System.out.println(s));
 	}
 }
