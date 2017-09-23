@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
+import Login from '@/components/Login'
 import Top from '@/components/Top'
 import New from '@/components/New'
 import NewConfirm from '@/components/NewConfirm'
@@ -14,6 +15,11 @@ export default new Router({
       path: '/hello',
       name: 'Hello',
       component: Hello
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
     },
     {
       path: '/',
