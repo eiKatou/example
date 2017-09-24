@@ -10,5 +10,9 @@
         <input type="text" name="name" th:value="${value}" />
         <input type="submit" value="Click" />
     </form>
+    <form method="post" action="/hello">
+        <input type="text" name="hello_message" th:value="${hello_message}" />
+        <input type="submit" value="hello!" />
+    </form>
 </body>
 </html>
