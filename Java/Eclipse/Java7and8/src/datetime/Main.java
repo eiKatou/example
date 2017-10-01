@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.time.OffsetDateTime;
+import java.time.Period;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -86,7 +87,7 @@ public class Main {
 		LocalDateTime ldate31 = LocalDateTime.parse("2016年11月07日 16時26分22秒", formatter);
 		System.out.println("ldate31 : " + ldate31);
 
-		// 間隔
+		// 間隔（Duration）
 		Duration duration1 = Duration.ofDays(2);
 		LocalDateTime ldate40 = LocalDateTime.now().plus(duration1);
 		LocalDateTime ldate41 = LocalDateTime.now().minus(Duration.ofHours(30));
@@ -98,6 +99,17 @@ public class Main {
 		LocalDateTime ldate43 = LocalDateTime.parse("2017-08-13T13:12:35");
 		Duration duration2 = Duration.between(ldate42, ldate43);
 		System.out.println("Duration2 : " + duration2.getSeconds());
+
+
+		// 間隔（Period）
+		Period period1 = Period.of(1, 2, 3);
+		LocalDateTime ldate50 = LocalDateTime.now();
+		LocalDateTime ldate51 = LocalDateTime.now().plus(period1);
+		Period period2 = Period.between(ldate50.toLocalDate(), ldate51.toLocalDate());
+		System.out.println("ldate50(now) : " + ldate50);
+		System.out.println("ldate51 : " + ldate51);
+		System.out.println("ldate50 between ldate51 : " + period2.toString());
+
 
 		// OffsetDateTime
 		OffsetDateTime odate1 = OffsetDateTime.of(2017, 9, 5, 16, 24, 45, 500_000_000, ZoneOffset.of("+09:00"));
