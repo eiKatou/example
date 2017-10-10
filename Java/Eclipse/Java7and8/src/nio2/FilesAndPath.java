@@ -1,10 +1,15 @@
 package nio2;
 
 import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.FileVisitor;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.PosixFileAttributes;
+import java.nio.file.attribute.PosixFilePermissions;
 
 public class FilesAndPath {
 	static final String DOWNLOAD_PATH = "/Users/ei/Downloads/";
@@ -25,6 +30,7 @@ public class FilesAndPath {
 		System.out.println("path4 : " + path4);
 		System.out.println("path5 : " + path5);
 		System.out.println();
+
 
 		// ファイルがあるか調べる。ファイルがなければファイルを作成。
 		Path basePath = Paths.get(DOWNLOAD_PATH);
@@ -58,15 +64,57 @@ public class FilesAndPath {
 		Path foo2Path = basePath.resolve(Paths.get("foo2.txt"));
 		Files.move(fooPath, foo2Path);
 
-		// TODO:ディレクトリ配下を走査して、一覧を出力する
+		// ディレクトリ配下を走査して、一覧を出力する
+		System.out.println("\n== Files.list ==");
+		Files.list(basePath)
+			.forEach(System.out::println);
 
-		// TODO:ファイルの属性情報を取得
+		// ディレクトリ配下を走査して、一覧を出力する
+		System.out.println("\n== Files.walk ==");
+		Files.walk(basePath)
+			.forEach(System.out::println);
+
+		// ディレクトリ配下を走査して、一覧を出力する
+		System.out.println("\n== Files.walkFileTree ==");
+		FileVisitor<Path> visitor = new FileVisitor<Path>() {
+
+			@Override
+			public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+				System.out.println("preVisitDirectory:" + dir);
+				return FileVisitResult.CONTINUE;
+			}
+
+			@Override
+			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+				System.out.println("visitFile:" + file);
+				return FileVisitResult.CONTINUE;
+			}
+
+			@Override
+			public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+				return FileVisitResult.TERMINATE;
+			}
+
+			@Override
+			public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+				return FileVisitResult.CONTINUE;
+			}
+		};
+		Files.walkFileTree(basePath, visitor);
+
+		// ファイルの属性情報を取得
+		System.out.println("\n== Files.readAttributes ==");
+		PosixFileAttributes attributes = Files.readAttributes(foo2Path, PosixFileAttributes.class);
+		System.out.println("Size:" + attributes.size());
+		System.out.println("Owner:" + attributes.owner());
+		System.out.println("Permission:" + PosixFilePermissions.toString(attributes.permissions()));
 
 		// ファイルの削除
-//		Files.deleteIfExists(fooPath);
-//		Files.deleteIfExists(foo2Path);
-//		Files.deleteIfExists(hogePath);
-//		Files.deleteIfExists(tmpPath);
+		Files.deleteIfExists(fooPath);
+		Files.deleteIfExists(foo2Path);
+		Files.deleteIfExists(hogePath);
+		Files.deleteIfExists(tmpPath);
+
 	}
 
 }
