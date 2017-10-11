@@ -18,6 +18,7 @@ public class Main {
 		Status2 status2 = Status2.ERROR;
 		System.out.println("name:" + status2.name());
 		System.out.println("code:" + status2.getCode());
+		System.out.println("toString:" + status2.toString());
 		switch (status2) {
 		case SUCCESS:
 			System.out.println("SUCCESS");
