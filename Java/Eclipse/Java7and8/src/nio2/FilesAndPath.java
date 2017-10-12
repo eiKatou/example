@@ -29,6 +29,8 @@ public class FilesAndPath {
 		System.out.println("path3 : " + path3);
 		System.out.println("path4 : " + path4);
 		System.out.println("path5 : " + path5);
+		// ファイル名のみを取得
+		System.out.println(path5.getFileName());
 		System.out.println();
 
 
@@ -63,6 +65,10 @@ public class FilesAndPath {
 		// ファイルの移動と名前の変更
 		Path foo2Path = basePath.resolve(Paths.get("foo2.txt"));
 		Files.move(fooPath, foo2Path);
+
+		Path tmp2Path = basePath.resolve(Paths.get("tmp2"));
+		Files.move(tmpPath, tmp2Path);
+		Files.move(tmp2Path, tmpPath);
 
 		// ディレクトリ配下を走査して、一覧を出力する
 		System.out.println("\n== Files.list ==");
@@ -110,11 +116,21 @@ public class FilesAndPath {
 		System.out.println("Permission:" + PosixFilePermissions.toString(attributes.permissions()));
 
 		// ファイルの削除
+		System.out.println("\n== 後始末 ==");
 		Files.deleteIfExists(fooPath);
 		Files.deleteIfExists(foo2Path);
-		Files.deleteIfExists(hogePath);
+//		Files.deleteIfExists(hogePath);
+		Files.walk(tmpPath).forEach(path -> {
+			if (!Files.isDirectory(path)) {
+				try {
+					System.out.println(path);
+					Files.deleteIfExists(path);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			});
 		Files.deleteIfExists(tmpPath);
-
 	}
 
 }
