@@ -29,7 +29,7 @@ public class SimpleReadWrite {
 		Files.deleteIfExists(fooPath);
 		System.out.println("File deleted.");
 
-		// ファイルの書き込み
+		// ファイルの書き込み（Close処理が必要！）
 		System.out.println("\n== Files.newBufferedWriter ==");
 		try (BufferedWriter writer = Files.newBufferedWriter(fooPath)) {
 			writer.append("abc");
@@ -38,7 +38,7 @@ public class SimpleReadWrite {
 			writer.newLine();
 		}
 
-		// ファイルの読み込み
+		// ファイルの読み込み（Close処理が必要！）
 		System.out.println("\n== Files.newBufferedReader ==");
 		try (BufferedReader reader = Files.newBufferedReader(fooPath)) {
 			String line = null;
@@ -52,13 +52,15 @@ public class SimpleReadWrite {
 		List<String> lines = Stream.of("123", "ccc").collect(Collectors.toList());
 		Files.write(fooPath, lines, CREATE, WRITE, APPEND);
 
-		// ファイルの読み込み
+		// ファイルの読み込み（Close処理は不要）
 		System.out.println("\n== Files.readAllLines ==");
 		Files.readAllLines(fooPath).forEach(System.out::println);
 
-		// ファイルの読み込み
+		// ファイルの読み込み（Close処理が必要！）
 		System.out.println("\n== Files.lines ==");
-		Files.lines(fooPath).forEach(System.out::println);
+		try (Stream<String> fileLines = Files.lines(fooPath)) {
+			fileLines.forEach(System.out::println);
+		}
 	}
 
 }
