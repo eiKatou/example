@@ -29,6 +29,10 @@ public class Main {
 		default:
 			break;
 		}
+
+		System.out.println();
+		System.out.println("getPrintCode:" + Status3.SUCCESS.getPrintCode());
+		System.out.println("getPrintCode:" + Status3.ERROR.getPrintCode());
 	}
 
 }
@@ -48,4 +52,29 @@ enum Status2 {
 	public int getCode() {
 		return code;
 	}
+}
+
+enum Status3 {
+	SUCCESS(0) {
+		@Override
+		public String getPrintCode() {
+			return "<p class='ok'>" + getCode() + "</p>";
+		}
+	}, ERROR(1) {
+		@Override
+		public String getPrintCode() {
+			return "<p class='error'>" + getCode() + "</p>";
+		}
+	};
+	private final int code;
+
+	private Status3(int code) {
+		this.code = code;
+	}
+
+	public int getCode() {
+		return code;
+	}
+
+	abstract public String getPrintCode();
 }
