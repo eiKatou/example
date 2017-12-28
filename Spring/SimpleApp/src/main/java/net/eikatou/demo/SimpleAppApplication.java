@@ -1,12 +1,23 @@
 package net.eikatou.demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import net.eikatou.demo.domain.Calculator;
+import net.eikatou.demo.domain.Customer;
+import net.eikatou.demo.service.CustomerService;
+
 @SpringBootApplication
 public class SimpleAppApplication implements CommandLineRunner {
 
+	@Autowired
+	Calculator calculator;
+	
+	@Autowired
+	CustomerService customerService;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(SimpleAppApplication.class, args);
 	}
@@ -20,5 +31,10 @@ public class SimpleAppApplication implements CommandLineRunner {
 		if (args.length > 2) {
 			System.out.println(args[2]);
 		}
+		
+		int added = calculator.add(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
+		System.out.println(added);
+		
+		customerService.save(new Customer(1, "aaa", "bbb"));
 	}
 }
