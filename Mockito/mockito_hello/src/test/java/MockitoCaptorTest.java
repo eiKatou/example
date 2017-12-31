@@ -28,6 +28,6 @@ public class MockitoCaptorTest {
         // verify
         assertThat(greet).isEqualTo("hi");
         verify(mockPerson).say(captor.capture());
-        assertThat(captor.getValue()).isEqualTo("Hei!, ");
+        assertThat(captor.getValue()).isEqualTo("Hey!, ");
     }
 }
