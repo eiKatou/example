@@ -16,4 +16,8 @@ public class Person {
     public String say(String hello) {
         return String.format("%s say %s", this.name(), hello);
     }
+
+    public void tweet(String hello) {
+        System.out.println(String.format("%s say %s", this.name(), hello));
+    }
 }

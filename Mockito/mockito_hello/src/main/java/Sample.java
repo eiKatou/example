@@ -14,6 +14,10 @@ public class Sample {
         return person.say("Hey!, ");
     }
 
+    public void tweet() {
+        person.tweet("Tweet, ");
+    }
+
     public Sample(Person person) {
         this.person = person;
     }
