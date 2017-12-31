@@ -6,3 +6,5 @@ build/
 out/
 *.test
 *.swp
+gradlew*
+gradle/
