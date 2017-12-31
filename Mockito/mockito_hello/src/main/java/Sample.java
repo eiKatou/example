@@ -1,10 +1,20 @@
 public class Sample {
+    private Person person;
+
     public static void main(String[] args) {
-        Sample sample = new Sample();
-        System.out.println(sample.getMessage());
+        Sample sample = new Sample(new Person("yamada", "masato", 15));
+        System.out.println(sample.greet());
     }
 
-    public String getMessage() {
-        return "Sample!";
+    public String greet() {
+        return "Hello, " + this.person.name() + "!!";
+    }
+
+    public String say() {
+        return person.say("Hey!, ");
+    }
+
+    public Sample(Person person) {
+        this.person = person;
     }
 }
