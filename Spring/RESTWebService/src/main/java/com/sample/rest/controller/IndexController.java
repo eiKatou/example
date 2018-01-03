@@ -1,6 +1,6 @@
 package com.sample.rest.controller;
 
-import com.sample.rest.repository.CustomerRepository;
+import com.sample.rest.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableAutoConfiguration
 public class IndexController {
     @Autowired
-    CustomerRepository customerRepository;
+    CustomerService customerService;
 
     @RequestMapping("/")
     @ResponseBody
@@ -19,7 +19,7 @@ public class IndexController {
 //        Customer created = customerRepository.save(
 //                new Customer(null, "Hidetoshi", "Dekisugi"));
 //        System.out.println(created + "is created.");
-        customerRepository.findAll()
+        customerService.findAll()
                 .forEach(System.out::println);
 
         return "Hello world";
