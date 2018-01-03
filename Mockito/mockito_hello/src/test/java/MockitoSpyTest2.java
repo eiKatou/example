@@ -6,7 +6,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class MockitoSpyTest {
+public class MockitoSpyTest2 {
     @Test
     public void Spyを使ってテストを実施する() {
         List<String> list = new LinkedList<>();
