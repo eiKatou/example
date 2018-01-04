@@ -7,6 +7,17 @@
 curl http://localhost:8080/api/customers -v -X GET
 ```
 
+## 顧客一覧の取得（1ページ目：1件目から2件目）
+```bash
+curl "http://localhost:8080/api/customers?page=0&size=2" -v -X GET
+```
+
+## 顧客一覧の取得（2ページ目：3件目から4件目）
+```bash
+curl "http://localhost:8080/api/customers?page=1&size=2" -v -X GET
+```
+
+
 ## 顧客の取得
 ```bash
 curl http://localhost:8080/api/customers/1 -v -X GET

@@ -3,6 +3,7 @@ package com.sample.rest.service;
 import com.sample.rest.entity.Customer;
 import com.sample.rest.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,10 @@ public class CustomerService {
 
     public List<Customer> findAll() {
         return customerRepository.findAll();
+    }
+
+    public List<Customer> findAll(Pageable pageable) {
+        return customerRepository.findAll(pageable).getContent();
     }
 
     public Optional<Customer> findOne(Integer id) {
