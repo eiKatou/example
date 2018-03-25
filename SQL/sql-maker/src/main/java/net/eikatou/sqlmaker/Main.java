@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -12,9 +13,9 @@ import java.util.stream.IntStream;
 import static java.nio.file.StandardOpenOption.*;
 
 public class Main {
-    private static int INSERT_NUM = 50000;
+    private static int INSERT_NUM = 20;
     private static String INSERT = "insert into %s values(%s);";
-    private static String TABLE_NAME = "testtbl";
+    private static String TABLE_NAME = "SAMPLE1";
     private static int COL_NUM = 3;
     private static String[][] COL_VAL = {
             {"北海道","青森","岩手","宮城","秋田","山形","福島","茨城","栃木","群馬","埼玉","千葉","東京","神奈川","新潟","富山","石川","福井","山梨","長野","岐阜","静岡","愛知","三重","滋賀","京都","大阪","兵庫","奈良","和歌山","鳥取","島根","岡山","広島","山口","徳島","香川","愛媛","高知","福岡","佐賀","長崎","熊本","大分","宮崎","鹿児島","沖縄"},
@@ -25,13 +26,13 @@ public class Main {
     public static void main(String[] args) throws IOException {
         validate();
 
-        List<String> sqls = IntStream.range(0, INSERT_NUM).parallel()
-                .mapToObj(s -> makeSql())
+        List<String> sqls = IntStream.range(0, INSERT_NUM)
+                .mapToObj(s -> makeSql(s))
                 .collect(Collectors.toList());
 
         // ファイル書き込み。IntelliJからの実行なら、このプロジェクトの直下にできる。
-        Path outputFile = Paths.get("foo.txt");
-        Files.write(outputFile, sqls, CREATE, WRITE, APPEND);
+        Path outputFile = Paths.get("sql.txt");
+        Files.write(outputFile, sqls, CREATE, WRITE, TRUNCATE_EXISTING);
     }
 
     private static void validate() {
@@ -40,17 +41,34 @@ public class Main {
         }
     }
 
-    private static String makeSql() {
-        List<String> values = IntStream.range(0, COL_NUM)
-                .mapToObj(i -> random(COL_VAL[i]))
-                .map(v -> String.format("'%s'", v))
-                .collect(Collectors.toList());
-        return String.format(INSERT, TABLE_NAME, String.join(",", values));
-    }
-
     private static String random(String[] values) {
         Random random = new Random();
         return values[random.nextInt(values.length)];
+    }
+
+    private static String makeSql(int index) {
+        List<String> colValues = new ArrayList<>();
+        colValues.add(col1(index));
+        colValues.add(col2(index));
+        colValues.add(col3(index));
+        colValues.add(col4(index));
+        return String.format(INSERT, TABLE_NAME, String.join(",", colValues));
+    }
+
+    private static String col1(int index) {
+        return Integer.toString(index);
+    }
+
+    private static String col2(int index) {
+        return String.format("'%s'", random(COL_VAL[0]));
+    }
+
+    private static String col3(int index) {
+        return String.format("'%s'", random(COL_VAL[1]));
+    }
+
+    private static String col4(int index) {
+        return  String.format("'%s'", random(COL_VAL[2]));
     }
 
 }
