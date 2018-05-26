@@ -13,10 +13,16 @@
             data: {
               num1: $("#num1").val(),
               num2: $("#num2").val()
-            },
-            success: function(result){
-              $("#result").val(result);
-            }});
+            }
+          })
+          .done((data) => {
+            $("#result").val(data);
+            console.log(data);
+          })
+          .fail((data) => {
+            $("#result").val('error');
+            console.log(data);
+          });
         });
       });
     </script>
