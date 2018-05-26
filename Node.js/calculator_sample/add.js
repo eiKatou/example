@@ -1,5 +1,5 @@
-if(process.argv.length < 4) {
-  console.log("usage: $node add.js 1 2");
+if (process.argv.length < 4) {
+  console.log('usage: $node add.js 1 2');
 }
 
 const num1 = parseInt(process.argv[2], 10);
