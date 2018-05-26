@@ -11,8 +11,8 @@ router.post('/add', function(req, res) {
   console.log(req.body.num1);
   console.log(req.body.num2);
   const result = parseInt(req.body.num1, 10) + parseInt(req.body.num2, 10);
-  // res.send('POST request to the homepage');
-  res.render('calc', { pageName: 'Calc' , result: result});
+  res.send(result.toString());
+  // res.render('calc', { pageName: 'Calc' , result: result});
 });
 
 module.exports = router;
