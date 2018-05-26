@@ -7,6 +7,14 @@
   <body>
     <h1>Calc</h1>
     <p>This page is <%= pageName %></p>
+    <p>
+      <form method="post" action="/calc/add">
+        <input type="text" name="num1">+
+        <input type="text" name="num2">=
+        <input type="text" name="result" value="<%= result %>">
+        <input type="submit" value="add">
+      </form>
+    </p>
     <p><a href="/">戻る</a></p>
   </body>
 </html>
