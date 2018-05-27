@@ -1,0 +1,14 @@
+{
+  "name": "webapi_call",
+  "version": "1.0.0",
+  "description": "",
+  "main": "call.js",
+  "scripts": {
+    "start": "node call.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.87.0"
+  }
+}
