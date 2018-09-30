@@ -24,7 +24,7 @@ type Stock struct {
 	PriceDatetime string
 }
 
-func (stock Stock) Println() {
+func (stock *Stock) Println() {
 	fmt.Println(stock.Ticker)
 	fmt.Println(stock.Price)
 	fmt.Println(stock.PriceDatetime)
