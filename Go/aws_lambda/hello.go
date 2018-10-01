@@ -7,10 +7,12 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
+// MyEvent is ..
 type MyEvent struct {
 	Name string `json:"What is your name?"`
 }
 
+// MyResponse is ..
 type MyResponse struct {
 	Message string `json:"Answer:"`
 }
