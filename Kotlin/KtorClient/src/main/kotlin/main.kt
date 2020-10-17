@@ -10,9 +10,12 @@ import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
 
 fun main(args: Array<String>) {
+    // curl "https://httpbin.org/get"
     callGetAPI()
     callGetAPI2()
     callGetAPI3()
+    // $ curl -H "content-type: application/json" -X POST -d'{"data1":"dog", "data2":"cat"}' http://httpbin.org/post
+    callPostAPI()
 }
 
 fun callGetAPI() {
@@ -32,7 +35,7 @@ fun callGetAPI() {
             }
         }
 
-        val message :HttpBinResponse = client.get("https://httpbin.org/get")
+        val message :HttpBinGetResponse = client.get("https://httpbin.org/get")
 
         println(message.args)
         println(message.headers["Host"])
@@ -60,7 +63,7 @@ fun callGetAPI2() {
             }
         }
 
-        val message :HttpBinResponse = client.request {
+        val message :HttpBinGetResponse = client.request {
             url("https://httpbin.org/get")
             method = HttpMethod.Get
             headers.append("User-Agent", "iPhone")
@@ -90,15 +93,56 @@ fun callGetAPI3() {
         val content = response.readText()
         println(content)
 
-        val responseObj = Gson().fromJson(content, HttpBinResponse::class.java)
+        val responseObj = Gson().fromJson(content, HttpBinGetResponse::class.java)
         println(responseObj.headers["Host"])
 
         client.close()
     }
 }
 
-data class HttpBinResponse(
+data class HttpBinGetResponse(
     val args: Map<String, String>,
     val headers: Map<String, String>,
     val origin: String,
+    val url: String)
+
+fun callPostAPI() {
+    runBlocking {
+        val client = HttpClient(CIO) {
+            install(Logging) {
+                logger = Logger.DEFAULT
+                level = LogLevel.ALL
+            }
+            install(JsonFeature) {
+                serializer = GsonSerializer {
+                    // .GsonBuilder
+                    serializeNulls()
+                    disableHtmlEscaping()
+                    setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                }
+            }
+        }
+
+        val message = client.post<HttpBinPostResponse> {
+            url("http://httpbin.org/post")
+            contentType(ContentType.Application.Json)
+            body = HttpBinPostBody(
+                data1 = "dog",
+                data2 = "cat")
+        }
+
+        println(message)
+        println("data1:${message.json["data1"]}, data2:${message.json["data2"]}")
+
+        client.close()
+    }
+}
+
+data class HttpBinPostBody(val data1: String, val data2: String)
+data class HttpBinPostResponse(
+    val args: Map<String, String>,
+    val headers: Map<String, String>,
+    val origin: String,
+    val data: String,
+    val json: Map<String, String>,
     val url: String)
