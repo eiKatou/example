@@ -2,6 +2,7 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
+import io.ktor.client.features.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
@@ -14,6 +15,7 @@ fun main(args: Array<String>) {
     callGetAPI()
     callGetAPI2()
     callGetAPI3()
+    callGetAPI4()
     // $ curl -H "content-type: application/json" -X POST -d'{"data1":"dog", "data2":"cat"}' http://httpbin.org/post
     callPostAPI()
 }
@@ -95,6 +97,38 @@ fun callGetAPI3() {
 
         val responseObj = Gson().fromJson(content, HttpBinGetResponse::class.java)
         println(responseObj.headers["Host"])
+
+        client.close()
+    }
+}
+
+fun callGetAPI4() {
+    runBlocking {
+        val client = HttpClient(CIO) {
+            install(Logging) {
+                logger = Logger.DEFAULT
+                level = LogLevel.ALL
+            }
+            install(JsonFeature) {
+                serializer = GsonSerializer {
+                    // .GsonBuilder
+                    serializeNulls()
+                    disableHtmlEscaping()
+                    setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                }
+            }
+        }
+
+        try {
+            val message: HttpBinGetResponse = client.get("https://httpbin.org/status/500")
+
+            println(message.args)
+            println(message.headers["Host"])
+            println(message.origin)
+            println(message.url)
+        } catch (e :ServerResponseException) {
+            println("status code:${e.response?.status?.value}")
+        }
 
         client.close()
     }
