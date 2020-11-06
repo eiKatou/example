@@ -4,7 +4,7 @@ plugins {
     kotlin("jvm") version "1.4.10"
     application
 }
-group = "net.eikatou"
+group = "org.example"
 version = "1.0-SNAPSHOT"
 
 repositories {
