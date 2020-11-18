@@ -7,6 +7,6 @@ services:
       - 1521:1521
       - 5500:5500
     volumes:
-      - ./opt_oracle:/opt/oracle
+      - ./oradata:/opt/oracle/oradata
     environment:
       - ORACLE_PWD=password01
