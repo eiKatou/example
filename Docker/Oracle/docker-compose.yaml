@@ -1,0 +1,12 @@
+version: '2'
+services:
+  db:
+    image: oracle/database:19.3.0-ee
+    container_name: oracle-19-ee
+    ports:
+      - 1521:1521
+      - 5500:5500
+    volumes:
+      - ./opt_oracle:/opt/oracle
+    environment:
+      - ORACLE_PWD=password01
