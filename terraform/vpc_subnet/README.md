@@ -28,3 +28,14 @@ ssh -i ./ec2-key-pair ec2-user@main_ec2_public_dns
 ```shell
 terraform destroy
 ```
+
+# 動作環境
+```shell
+$ terraform -version
+Terraform v0.13.5
+
+$ sw_vers
+ProductName:    Mac OS X
+ProductVersion: 10.14.6
+BuildVersion:   18G4032
+```
