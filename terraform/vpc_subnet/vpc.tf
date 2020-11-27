@@ -1,17 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 3.18"
-    }
-  }
-}
-
-provider "aws" {
-  profile = "work" // 自分の環境に合わせて変えること
-  region  = "us-west-2"
-}
-
 // VPC
 // https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc
 resource "aws_vpc" "main" {
@@ -68,8 +54,8 @@ resource "aws_route_table_association" "a" {
 // Security Group
 // https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
 // https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule
-resource "aws_security_group" "allow_ssh_only" {
-  name        = "allow_ssh_only"
+resource "aws_security_group" "main" {
+  name        = "main_sg"
   description = "Allow SSH inbound traffic"
   vpc_id      = aws_vpc.main.id
 
@@ -97,6 +83,6 @@ resource "aws_security_group" "allow_ssh_only" {
   }
 
   tags = {
-    Name = "allow_ssh"
+    Name = "main_sg"
   }
 }
