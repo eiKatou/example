@@ -56,6 +56,17 @@ resource "aws_route_table_association" "a" {
 // Security Group
 // https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
 // https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule
+
+// global ip 取得
+// https://dev.classmethod.jp/articles/reference-my-pubic-ip-in-terraform/
+data http ifconfig {
+  url = "https://ifconfig.co/ip"
+}
+locals {
+  current-ip        = chomp(data.http.ifconfig.body)
+  allowed-cidr-myip = "${local.current-ip}/32"
+}
+
 resource "aws_security_group" "main" {
   name        = "main_sg"
   description = "Allow SSH inbound traffic"
@@ -66,7 +77,7 @@ resource "aws_security_group" "main" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [local.allowed-cidr-myip]
   }
 
   ingress {
@@ -88,3 +99,4 @@ resource "aws_security_group" "main" {
     Name = "main_sg"
   }
 }
+
