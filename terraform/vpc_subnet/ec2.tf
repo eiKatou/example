@@ -8,12 +8,11 @@ data aws_ssm_parameter amzn2_ami {
 }
 
 resource "aws_instance" "main_ec2" {
-  ami                         = data.aws_ssm_parameter.amzn2_ami.value
-  instance_type               = "t2.micro"
-  key_name                    = aws_key_pair.ec2-key-pair.id
-  vpc_security_group_ids      = [aws_security_group.main.id]
-  subnet_id                   = aws_subnet.main.id
-  associate_public_ip_address = true
+  ami                    = data.aws_ssm_parameter.amzn2_ami.value
+  instance_type          = "t2.micro"
+  key_name               = aws_key_pair.ec2-key-pair.id
+  vpc_security_group_ids = [aws_security_group.main.id]
+  subnet_id              = aws_subnet.main.id
 
   tags = {
     Name = "main_ec2"
