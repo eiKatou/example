@@ -1,0 +1,1 @@
+ssh -i ./ec2-key-pair ec2-user@main_ec2_public_dns
