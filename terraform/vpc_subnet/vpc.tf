@@ -12,10 +12,91 @@ provider "aws" {
   region  = "us-west-2"
 }
 
-resource "aws_vpc" "main_vpc" {
-  cidr_block = "10.0.0.0/16"
+// VPC
+// https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc
+resource "aws_vpc" "main" {
+  cidr_block           = "10.0.0.0/16"
+  enable_dns_support   = true # DNS解決を有効化
+  enable_dns_hostnames = true # DNSホスト名を有効化
 
   tags = {
     Name = "main"
+  }
+}
+
+// Subnet
+// https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet
+resource "aws_subnet" "main" {
+  vpc_id     = aws_vpc.main.id
+  cidr_block = "10.0.1.0/24"
+
+  tags = {
+    Name = "Main"
+  }
+}
+
+// Internet Gateway
+// https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "main"
+  }
+}
+
+// Route Table
+// https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table
+resource "aws_route_table" "r" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gw.id
+  }
+
+  tags = {
+    Name = "Main"
+  }
+}
+
+resource "aws_route_table_association" "a" {
+  subnet_id      = aws_subnet.main.id
+  route_table_id = aws_route_table.r.id
+}
+
+// Security Group
+// https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
+// https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule
+resource "aws_security_group" "allow_ssh_only" {
+  name        = "allow_ssh_only"
+  description = "Allow SSH inbound traffic"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    description = "SSH from VPC"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = [aws_vpc.main.cidr_block]
+  }
+
+  ingress {
+    description = "Ping from VPC"
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = [aws_vpc.main.cidr_block]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "allow_ssh"
   }
 }
