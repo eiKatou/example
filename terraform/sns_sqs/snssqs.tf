@@ -29,9 +29,16 @@ resource "aws_sqs_queue_policy" "sqs_queue_policy" {
     {
       "Sid": "First",
       "Effect": "Allow",
-      "Principal": "*",
-      "Action": "sqs:*",
-      "Resource": "${aws_sqs_queue.main_queue.arn}"
+      "Principal": {
+        "AWS": "*"
+      },
+      "Action": "SQS:SendMessage",
+      "Resource": "${aws_sqs_queue.main_queue.arn}",
+      "Condition": {
+        "ArnLike": {
+          "aws:SourceArn": "${aws_sns_topic.main_topic.arn}"
+        }
+      }
     }
   ]
 }
@@ -44,4 +51,11 @@ resource "aws_sns_topic_subscription" "user_updates_sqs_target" {
   topic_arn = aws_sns_topic.main_topic.arn
   protocol  = "sqs"
   endpoint  = aws_sqs_queue.main_queue.arn
+}
+
+output "aws_sns_url" {
+  value = aws_sqs_queue.main_queue.id
+}
+output "aws_sqs_url" {
+  value = aws_sns_topic.main_topic.id
 }
