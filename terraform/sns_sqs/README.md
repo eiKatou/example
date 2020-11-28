@@ -11,6 +11,15 @@ terraform apply
 ```
 
 # SNSにメッセージ送信
+[AWS CLI での Amazon SNS の使用 - AWS Command Line Interface](https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-services-sns.html)
+```shell
+export AWS_PROFILE=work
+export AWS_DEFAULT_REGION=us-west-2
+export TOPIC_ARN="topic_arn"
+
+# トピックへの発行
+aws sns publish --topic-arn $TOPIC_ARN --message "Hello World!"
+```
 
 # SQSでメッセージ受信と削除
 ```shell
