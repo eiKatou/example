@@ -34,10 +34,13 @@ export QUEUE_URL="queue-url"
 aws sqs send-message --queue-url $QUEUE_URL --message-body "hello, world"
 
 # メッセージの受信
-aws sqs receive-message --queue-url $QUEUE_URL
+aws sqs receive-message --queue-url $QUEUE_URL --wait-time-seconds 3
 
 # メッセージの削除
 aws sqs delete-message --queue-url $QUEUE_URL --receipt-handle {ReceiptHandle}
+
+# メッセージの全削除
+aws sqs purge-queue --queue-url $QUEUE_URL
 ```
 
 # リソース削除
