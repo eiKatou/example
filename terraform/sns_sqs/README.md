@@ -1,6 +1,6 @@
 # 作るもの
 - SNS 1トピック
-- SQS 1キュー
+- SQS 2キュー
 - SNSのサブスクリプションにSQSを追加
 
 # 実行
@@ -8,6 +8,11 @@
 terraform init
 terraform validate
 terraform apply
+```
+
+# SQSキューを3つにしたい時
+```shell
+terraform apply -var 'number_of_queues=3'
 ```
 
 # SNSにメッセージ送信
@@ -34,7 +39,7 @@ export QUEUE_URL="queue-url"
 aws sqs send-message --queue-url $QUEUE_URL --message-body "hello, world"
 
 # メッセージの受信
-aws sqs receive-message --queue-url $QUEUE_URL --wait-time-seconds 3
+aws sqs receive-message --queue-url $QUEUE_URL > message.txt
 
 # メッセージの削除
 aws sqs delete-message --queue-url $QUEUE_URL --receipt-handle {ReceiptHandle}
