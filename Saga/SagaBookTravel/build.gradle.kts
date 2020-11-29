@@ -13,6 +13,10 @@ repositories {
 }
 
 dependencies {
+    implementation (group="org.jetbrains.kotlinx", name="kotlinx-coroutines-core", version="1.3.0")
+    implementation (group="com.amazonaws", name="aws-java-sdk-bom", version="1.11.908")
+    implementation (group="com.amazonaws", name="aws-java-sdk-sns", version="1.11.908")
+    implementation (group="com.amazonaws", name="aws-java-sdk-sqs", version="1.11.908")
     testImplementation(kotlin("test-junit5"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
