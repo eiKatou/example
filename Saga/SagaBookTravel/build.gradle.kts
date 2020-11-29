@@ -17,6 +17,7 @@ dependencies {
     implementation (group="com.amazonaws", name="aws-java-sdk-bom", version="1.11.908")
     implementation (group="com.amazonaws", name="aws-java-sdk-sns", version="1.11.908")
     implementation (group="com.amazonaws", name="aws-java-sdk-sqs", version="1.11.908")
+    implementation (group="com.google.code.gson", name="gson", version="2.8.6")
     testImplementation(kotlin("test-junit5"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
