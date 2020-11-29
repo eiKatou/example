@@ -5,6 +5,7 @@ import com.amazonaws.services.sns.model.PublishResult
 import com.amazonaws.services.sqs.AmazonSQS
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder
 import com.amazonaws.services.sqs.model.*
+import com.google.gson.Gson
 import java.util.*
 
 class QueueClient {
@@ -20,7 +21,7 @@ class QueueClient {
                 message, subject)
             println("""
                 send message
-                -> ${publishResult.messageId}
+                -> subject:$subject
                 -> $topicArn
             """.trimIndent())
             return publishResult
@@ -37,9 +38,10 @@ class QueueClient {
             val messages = sqsClient.receiveMessage(receiveMessageRequest).messages
             // debug print
             messages.forEach {
+                val bookTripId = Gson().fromJson<MessageBody>(it.body, MessageBody::class.java).Subject
                 println("""
                     receive message
-                    -> ${it.messageId}
+                    -> bookTripId:$bookTripId
                     -> $queueUrl
                 """.trimIndent())
             }

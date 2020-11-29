@@ -1,4 +1,5 @@
 import com.amazonaws.services.sqs.model.Message
+import com.google.gson.Gson
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
@@ -12,14 +13,24 @@ class TravelAgentService {
                 // BookTripのメッセージを受信 -> 車を予約
                 val messages = service.receiveBookTrip()
                 messages.forEach {
-                    // TODO: state管理のためのデータ保存
-                    service.requestRentCar(it.messageId)
+                    val messageBody = Gson().fromJson<MessageBody>(it.body, MessageBody::class.java)
+                    val bookTripId = messageBody.Subject
+
+                    // 受付完了を記録
+                    SagaStateRepository.accepted(bookTripId)
+
+                    // 車を予約
+                    service.requestRentCar(bookTripId)
+                    SagaStateRepository.requestedRentCar(bookTripId)
+
+                    // メッセージ削除
                     service.deleteReceivedBookTrip(it)
                 }
 
                 // 少し待つ
+                SagaStateRepository.printAllState()
                 delay(1000L)
-                print(".")
+//                print(".")
             }
         }
     }
