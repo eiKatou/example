@@ -1,12 +1,12 @@
 variable "pipe_name" {
-  default = ["travel-agent-request", "car-rental-request", "car-rental-response"]
+  default = ["travel-agent-request", "rent-car-request", "rent-car-response"]
 }
 
 # SNS
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic
 resource "aws_sns_topic" "main_topic" {
   count = length(var.pipe_name)
-  name = "${element(var.pipe_name, count.index)}-topic"
+  name  = "${element(var.pipe_name, count.index)}-topic"
 
   tags = {
     Name = "${element(var.pipe_name, count.index)}-topic"
@@ -17,7 +17,7 @@ resource "aws_sns_topic" "main_topic" {
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sqs_queue
 resource "aws_sqs_queue" "main_queue" {
   count = length(var.pipe_name)
-  name = "${element(var.pipe_name, count.index)}-queue"
+  name  = "${element(var.pipe_name, count.index)}-queue"
 
   tags = {
     Name = "${element(var.pipe_name, count.index)}-queue"
@@ -25,7 +25,7 @@ resource "aws_sqs_queue" "main_queue" {
 }
 
 data "aws_iam_policy_document" "sqs-queue-policy" {
-  count = length(var.pipe_name)
+  count     = length(var.pipe_name)
   policy_id = "sqs_policy"
 
   statement {
@@ -58,7 +58,7 @@ data "aws_iam_policy_document" "sqs-queue-policy" {
 
 # 全ての権限のpolicyを与える
 resource "aws_sqs_queue_policy" "sqs_queue_policy" {
-  count = length(var.pipe_name)
+  count     = length(var.pipe_name)
   queue_url = aws_sqs_queue.main_queue[count.index].id
   policy    = data.aws_iam_policy_document.sqs-queue-policy[count.index].json
 }
@@ -66,7 +66,7 @@ resource "aws_sqs_queue_policy" "sqs_queue_policy" {
 # SNS Subscription
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_subscription
 resource "aws_sns_topic_subscription" "user_updates_sqs_target" {
-  count = length(var.pipe_name)
+  count     = length(var.pipe_name)
   topic_arn = aws_sns_topic.main_topic[count.index].arn
   protocol  = "sqs"
   endpoint  = aws_sqs_queue.main_queue[count.index].arn
