@@ -1,5 +1,8 @@
 variable "pipe_name" {
-  default = ["travel-agent-request", "rent-car-request", "rent-car-response"]
+  default = ["travel-agent-request",
+    "rent-car-request", "rent-car-response",
+    "book-hotel-request", "book-hotel-response",
+  "book-flight-request", "book-flight-response"]
 }
 
 # SNS
