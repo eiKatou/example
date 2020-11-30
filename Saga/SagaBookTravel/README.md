@@ -15,7 +15,8 @@ terraform apply
 1. Client
 
 ```shell
-./gradlew run --args="travel"
+./gradlew run --args="TravelAgentSvc"
+./gradlew run --args="CarRentSvc"
 ./gradlew run --args="bookTrip user01"
 ```
 
