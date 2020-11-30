@@ -1,5 +1,4 @@
 import com.amazonaws.services.sqs.model.Message
-import com.google.gson.Gson
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
@@ -29,7 +28,7 @@ class TravelAgentService {
 
                     // 少し待つ
                     delay(1000L)
-                    print(".")
+//                    print(".")
                 }
             }
 
@@ -41,8 +40,8 @@ class TravelAgentService {
     private fun receiveBookTrip(nextProcess: (String) -> Unit) {
         val messages = receiveBookTripMessage()
         messages.forEach {
-            val bookTripId = MessageUtil.getBookTripId(it)
-            val user = MessageUtil.getBookTripUser(it)
+            val bookTripId = TravelMessageUtil.getBookTripId(it)
+            val user = TravelMessageUtil.getBookTripUser(it)
             println("\n\n予約を受信しました。 id:$bookTripId, user:$user")
 
             // 受付完了を記録

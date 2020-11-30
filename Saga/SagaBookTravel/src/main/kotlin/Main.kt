@@ -4,7 +4,7 @@ fun main(args : Array<String>) {
     when (args[0]) {
         "bookTrip" -> Client.execute(args[1])
         "TravelAgentSvc" -> TravelAgentService.execute()
-        "CarRentSvc" -> RentCarService.execute()
+        "CarRentSvc" -> CarRentService.execute()
         else -> throw IllegalArgumentException("args: client or travel")
     }
 }

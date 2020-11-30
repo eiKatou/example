@@ -1,12 +1,11 @@
 import com.amazonaws.services.sqs.model.Message
-import com.google.gson.Gson
 import kotlinx.coroutines.runBlocking
 
-class RentCarService {
+class CarRentService {
     companion object {
         fun execute() = runBlocking {
-            println("Rent Car Service")
-            val service = RentCarService()
+            println("Car Rent Service")
+            val service = CarRentService()
 
             while(true) {
                 service.receiveRequest { bookTripId ->
@@ -16,10 +15,13 @@ class RentCarService {
         }
     }
 
+    /**
+     * 車予約のリクエストを受信 -> 次の処理
+     */
     private fun receiveRequest(nextProcess: (String) -> Unit) {
         val messages = receiveRentCarMessage()
         messages.forEach {
-            val bookTripId = MessageUtil.getBookTripId(it)
+            val bookTripId = TravelMessageUtil.getBookTripId(it)
             println("\n\n車の予約を受け付けました。 id:$bookTripId")
 
             nextProcess(bookTripId)

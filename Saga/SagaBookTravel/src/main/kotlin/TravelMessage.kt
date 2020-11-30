@@ -1,24 +1,24 @@
 import com.amazonaws.services.sqs.model.Message
 import com.google.gson.Gson
 
-class MessageUtil {
+class TravelMessageUtil {
     companion object {
         /**
          * SQS Messageから旅行予約IDを取得します
          */
         fun getBookTripId(message: Message): String{
-            return Gson().fromJson<MessageBody>(message.body, MessageBody::class.java).Subject
+            return Gson().fromJson<TravelMessageBody>(message.body, TravelMessageBody::class.java).Subject
         }
 
         /**
          * SQS Messageから旅行予約ユーザーを取得します
          */
         fun getBookTripUser(message: Message): String{
-            return Gson().fromJson<MessageBody>(message.body, MessageBody::class.java).Message
+            return Gson().fromJson<TravelMessageBody>(message.body, TravelMessageBody::class.java).Message
         }
     }
 }
-data class MessageBody(
+data class TravelMessageBody(
     val Type: String,
     val MessageId: String,
     val TopicArn: String,
