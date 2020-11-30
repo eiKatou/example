@@ -9,14 +9,17 @@ class SagaStateRepository {
 
         fun accepted(bookTripId: String) {
             states.add(SagaState(bookTripId, Service.TravelAgent, Status.Accepted))
+            printAllState()
         }
 
         fun requestedRentCar(bookTripId: String) {
             states.add(SagaState(bookTripId, Service.RentCar, Status.Requested))
+            printAllState()
         }
 
         fun completedRentCar(bookTripId: String) {
             states.add(SagaState(bookTripId, Service.RentCar, Status.Complete))
+            printAllState()
         }
 
         fun printAllState() {

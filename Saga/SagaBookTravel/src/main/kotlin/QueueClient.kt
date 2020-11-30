@@ -19,11 +19,11 @@ class QueueClient {
             val publishResult = snsClient.publish(
                 topicArn,
                 message, subject)
-            println("""
-                send message
-                -> subject:$subject
-                -> $topicArn
-            """.trimIndent())
+//            println("""
+//                send message
+//                -> subject:$subject
+//                -> $topicArn
+//            """.trimIndent())
             return publishResult
         }
 
@@ -37,14 +37,14 @@ class QueueClient {
                 ReceiveMessageRequest(queueUrl).withMaxNumberOfMessages(maxCount)
             val messages = sqsClient.receiveMessage(receiveMessageRequest).messages
             // debug print
-            messages.forEach {
-                val bookTripId = Gson().fromJson<MessageBody>(it.body, MessageBody::class.java).Subject
-                println("""
-                    receive message
-                    -> bookTripId:$bookTripId
-                    -> $queueUrl
-                """.trimIndent())
-            }
+//            messages.forEach {
+//                val bookTripId = Gson().fromJson<MessageBody>(it.body, MessageBody::class.java).Subject
+//                println("""
+//                    receive message
+//                    -> bookTripId:$bookTripId
+//                    -> $queueUrl
+//                """.trimIndent())
+//            }
             return messages
         }
 

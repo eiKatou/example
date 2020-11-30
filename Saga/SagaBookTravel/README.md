@@ -16,7 +16,7 @@ terraform apply
 
 ```shell
 ./gradlew run --args="travel"
-./gradlew run --args="client"
+./gradlew run --args="bookTrip user01"
 ```
 
 # Sagaサンプルを止める
@@ -28,3 +28,6 @@ terraform apply
 cd ./terraform
 terraform destroy
 ```
+
+# TODO
+キャンセルを実装したい。そのためにはユーザーごとに予約状態を管理する必要がある。
