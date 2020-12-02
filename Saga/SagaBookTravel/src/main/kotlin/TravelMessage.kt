@@ -1,9 +1,5 @@
 import com.amazonaws.services.sqs.model.Message
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-
-
-
 
 class TravelMessageUtil {
     companion object {
@@ -18,12 +14,12 @@ class TravelMessageUtil {
          * SQS Messageから旅行予約ユーザーを取得します
          */
         fun getBookTripUser(message: Message): String {
-            return getMessageDetail(message).userName
+            return getRequestMessageDetail(message).userName
         }
 
-        fun getMessageDetail(message: Message): TravelMessageDetail {
+        fun getRequestMessageDetail(message: Message): RequestMessageDetail {
             val messageDetailString = Gson().fromJson<TravelMessageBody>(message.body, TravelMessageBody::class.java).Message
-            return TravelMessageDetail.fromString(messageDetailString)
+            return RequestMessageDetail.fromString(messageDetailString)
         }
     }
 }
@@ -35,12 +31,27 @@ data class TravelMessageBody(
     val Message: String,
     val Timestamp: String,
 )
-class TravelMessageDetail(val userName: String, val requestType: String) {
+enum class RequestType {
+    Request, Cancel
+}
+class RequestMessageDetail(val userName: String, val requestType: RequestType) {
     override fun toString() = "$userName:$requestType"
     companion object {
-        fun fromString(string: String):TravelMessageDetail {
+        fun fromString(string: String):RequestMessageDetail {
             val values = string.split(":")
-            return TravelMessageDetail(values[0], values[1])
+            return RequestMessageDetail(values[0], RequestType.valueOf(values[1]))
+        }
+    }
+}
+enum class ResponseType {
+    OK, NG
+}
+class ResponseMessageDetail(val userName: String, val responseType: ResponseType, val requestType: RequestType, ) {
+    override fun toString() = "$userName:$responseType:$requestType"
+    companion object {
+        fun fromString(string: String):ResponseMessageDetail {
+            val values = string.split(":")
+            return ResponseMessageDetail(values[0], ResponseType.valueOf(values[1]), RequestType.valueOf(values[2]))
         }
     }
 }

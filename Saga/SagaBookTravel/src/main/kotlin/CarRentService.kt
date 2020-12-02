@@ -9,8 +9,9 @@ class CarRentService {
 
             while(true) {
                 // 車予約のリクエスト
-                service.receiveRequest { bookTripId ->
-                    service.replyRentCarMessage(bookTripId)
+                service.receiveRequest { bookTripId, requestMessageDetail ->
+                    // 今は全てOK。失敗しない。
+                    service.replyRentCarMessage(bookTripId, requestMessageDetail, ResponseType.OK)
                 }
             }
         }
@@ -19,19 +20,18 @@ class CarRentService {
     /**
      * 車予約のリクエストを受信 -> 次の処理
      */
-    private fun receiveRequest(nextProcess: (String) -> Unit) {
+    private fun receiveRequest(nextProcess: (String, RequestMessageDetail) -> Unit) {
         val messages = receiveRentCarMessage()
         messages.forEach {
-            // TODO: キャンセルかどうかを見分ける必要がある。
             val bookTripId = TravelMessageUtil.getBookTripId(it)
-            val messageDetail = TravelMessageUtil.getMessageDetail(it)
-            if (messageDetail.requestType == "request") {
+            val requestMessageDetail = TravelMessageUtil.getRequestMessageDetail(it)
+            if (requestMessageDetail.requestType == RequestType.Request) {
                 println("\n\n車の予約を受け付けました。 id:$bookTripId")
             } else {
                 println("\n\n車の予約キャンセルを受け付けました。 id:$bookTripId")
             }
 
-            nextProcess(bookTripId)
+            nextProcess(bookTripId, requestMessageDetail)
 
             deleteRentCarMessage(it)
         }
@@ -54,11 +54,11 @@ class CarRentService {
     /**
      * 車予約リクエストの結果を返信
      */
-    private fun replyRentCarMessage(bookTripId: String) {
+    private fun replyRentCarMessage(bookTripId: String, requestMessageDetail: RequestMessageDetail, responseType: ResponseType) {
         QueueClient.sendMessage(
             QueueResource.RENT_CAR_RESPONSE_TOPIC_ARN,
             subject = bookTripId,
-            message = "OK. rent car."
+            message = ResponseMessageDetail(userName = requestMessageDetail.userName, responseType, requestMessageDetail.requestType).toString()
         )
         println("\n\n車の予約を完了しました。 id:$bookTripId")
     }
