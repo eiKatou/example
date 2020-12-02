@@ -10,8 +10,8 @@ class TravelAgentService {
 
             while(true) {
                 // 旅行予約を受信 -> RentCarに進む
-                service.receiveBookTrip { bookTripId ->
-                    service.requestRentCar(bookTripId)
+                service.receiveBookTrip { bookTripId, userName ->
+                    service.requestRentCar(bookTripId, userName)
                 }
 
                     // TODO:RentCarの予約完了メッセージを受信 -> BookHotelに進む
@@ -37,18 +37,18 @@ class TravelAgentService {
     /**
      * 旅行予約を受信 -> 次の処理
      */
-    private fun receiveBookTrip(nextProcess: (String) -> Unit) {
+    private fun receiveBookTrip(nextProcess: (String, String) -> Unit) {
         val messages = receiveBookTripMessage()
         messages.forEach {
             val bookTripId = TravelMessageUtil.getBookTripId(it)
-            val user = TravelMessageUtil.getBookTripUser(it)
-            println("\n\n予約を受信しました。 id:$bookTripId, user:$user")
+            val userName = TravelMessageUtil.getBookTripUser(it)
+            println("\n\n予約を受信しました。 id:$bookTripId, user:$userName")
 
             // 受付完了を記録
             SagaStateRepository.accepted(bookTripId)
 
             // 次の処理
-            nextProcess(bookTripId)
+            nextProcess(bookTripId, userName)
 
             // メッセージ削除
             deleteReceivedBookTripMessage(it)
@@ -72,12 +72,13 @@ class TravelAgentService {
     /**
      * 車を予約
      */
-    private fun requestRentCar(bookTripId: String) {
+    private fun requestRentCar(bookTripId: String, userName: String) {
         println("\n\n車を予約します。 id:$bookTripId")
+        val messageDetail = TravelMessageDetail(userName = userName, requestType = "request")
         QueueClient.sendMessage(
             QueueResource.RENT_CAR_REQUEST_TOPIC_ARN,
             subject = bookTripId,
-            message = "rent car."
+            message = messageDetail.toString()
         )
         SagaStateRepository.requestedRentCar(bookTripId)
     }
