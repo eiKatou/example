@@ -1,7 +1,6 @@
 import java.util.*
 
 // TravelAgentServiceに予約依頼を出します。
-
 class Client {
     companion object {
         fun execute(user: String) {
