@@ -8,6 +8,7 @@ class CarRentService {
             val service = CarRentService()
 
             while(true) {
+                // 車予約のリクエスト
                 service.receiveRequest { bookTripId ->
                     service.replyRentCarMessage(bookTripId)
                 }
@@ -21,8 +22,14 @@ class CarRentService {
     private fun receiveRequest(nextProcess: (String) -> Unit) {
         val messages = receiveRentCarMessage()
         messages.forEach {
+            // TODO: キャンセルかどうかを見分ける必要がある。
             val bookTripId = TravelMessageUtil.getBookTripId(it)
-            println("\n\n車の予約を受け付けました。 id:$bookTripId")
+            val messageDetail = TravelMessageUtil.getMessageDetail(it)
+            if (messageDetail.requestType == "request") {
+                println("\n\n車の予約を受け付けました。 id:$bookTripId")
+            } else {
+                println("\n\n車の予約キャンセルを受け付けました。 id:$bookTripId")
+            }
 
             nextProcess(bookTripId)
 
