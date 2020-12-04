@@ -19,6 +19,9 @@ terraform apply
 ```
 最後にEC2のpublic DNS ホスト名が出力される。これを使ってEC2にSSHする。
 
+EC2の初期化にcloud-initを利用。
+https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/user-data.html
+
 # EC2に接続
 ```shell
 ssh -i ./ec2-key-pair ec2-user@main_ec2_public_dns

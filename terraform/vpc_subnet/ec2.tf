@@ -13,6 +13,7 @@ resource "aws_instance" "main_ec2" {
   key_name               = aws_key_pair.ec2-key-pair.id
   vpc_security_group_ids = [aws_security_group.main.id]
   subnet_id              = aws_subnet.main.id
+  user_data              = file("./userdata/cloud-init.tpl")
 
   tags = {
     Name = "main_ec2"
