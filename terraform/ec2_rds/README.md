@@ -37,7 +37,8 @@ terraform destroy
 ```shell
 $ terraform -version
 Terraform v0.13.5
-+ provider registry.terraform.io/hashicorp/aws v3.19.0
++ provider registry.terraform.io/hashicorp/aws v3.20.0
++ provider registry.terraform.io/hashicorp/http v2.0.0
 
 $ sw_vers
 ProductName:    Mac OS X
