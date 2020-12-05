@@ -15,7 +15,7 @@ resource "aws_vpc" "main" {
 resource "aws_subnet" "public-web" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.0.1.0/24"
-  availability_zone       = "ap-northeast-1a"
+  availability_zone       = "us-west-2a"
   map_public_ip_on_launch = true
   tags = {
     Name = "terraform-test-public-web"
@@ -26,7 +26,7 @@ resource "aws_subnet" "public-web" {
 resource "aws_subnet" "private-db1" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.2.0/24"
-  availability_zone = "ap-northeast-1a"
+  availability_zone = "us-west-2b"
   tags = {
     Name = "terraform-test-private-db1"
   }
@@ -35,7 +35,7 @@ resource "aws_subnet" "private-db1" {
 resource "aws_subnet" "private-db2" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.3.0/24"
-  availability_zone = "ap-northeast-1c"
+  availability_zone = "us-west-2c"
   tags = {
     Name = "terraform-test-private-db2"
   }

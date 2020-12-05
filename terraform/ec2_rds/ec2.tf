@@ -4,7 +4,7 @@
 
 # global ip 取得
 # https://dev.classmethod.jp/articles/reference-my-pubic-ip-in-terraform/
-data http ifconfig {
+data "http" "ifconfig" {
   url = "https://ifconfig.co/ip"
 }
 locals {
@@ -71,7 +71,7 @@ resource "aws_security_group" "private-db-sg" {
 # https://dev.classmethod.jp/articles/launch-ec2-from-latest-amazon-linux2-ami-by-terraform/
 
 # 最新のamiを取得する
-data aws_ssm_parameter amzn2_ami {
+data "aws_ssm_parameter" "amzn2_ami" {
   name = "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
 }
 

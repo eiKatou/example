@@ -13,5 +13,5 @@ terraform {
 
 provider "aws" {
   profile = "work" // 自分の環境に合わせて変えること
-  region  = "ap-northeast-1"
+  region  = "us-west-2"
 }
