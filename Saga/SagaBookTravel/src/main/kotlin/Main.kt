@@ -5,6 +5,7 @@ fun main(args : Array<String>) {
         "bookTrip" -> Client.execute(args[1])
         "TravelAgentSvc" -> TravelAgentService.execute()
         "CarRentSvc" -> CarRentService.execute()
+        "HotelReservationSvc" -> HotelReservationService.execute()
         else -> throw IllegalArgumentException("args: client or travel")
     }
 }
