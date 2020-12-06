@@ -18,7 +18,7 @@ class AirlineReservationService {
                 // 飛行機予約のリクエストを受けて処理を行う。
                 service.receiveRequest(requestProcess)
 
-                delay(500L)
+                delay(1000L)
             }
         }
     }
@@ -35,7 +35,7 @@ class AirlineReservationService {
             val bookTripId = TravelMessageUtil.getBookTripId(it)
             val requestMessageDetail = TravelMessageUtil.getRequestMessageDetail(it)
             when(requestMessageDetail.requestType) {
-                RequestType.Request -> {
+                RequestType.Book -> {
                     println("\n\n飛行機の予約を受け付けました。 id:$bookTripId")
                     requestProcess(bookTripId, requestMessageDetail)
                 }

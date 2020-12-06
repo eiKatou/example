@@ -5,7 +5,7 @@ class Client {
     companion object {
         fun execute(user: String) {
             val subject = UUID.randomUUID().toString()
-            val messageDetail = RequestMessageDetail(userName = user, requestType = RequestType.Request)
+            val messageDetail = RequestMessageDetail(userName = user, requestType = RequestType.Book)
             QueueClient.sendMessage(QueueResource.TRAVEL_AGENT_REQUEST_TOPIC_ARN, subject, messageDetail.toString())
             println("予約を依頼しました。 id:$subject, user:$user")
         }

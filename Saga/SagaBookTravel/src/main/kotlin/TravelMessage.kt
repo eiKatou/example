@@ -11,15 +11,19 @@ class TravelMessageUtil {
         }
 
         /**
-         * SQS Messageから旅行予約ユーザーを取得します
+         * SQS Messageからリクエストメッセージ詳細を取得します
          */
-        fun getBookTripUser(message: Message): String {
-            return getRequestMessageDetail(message).userName
-        }
-
         fun getRequestMessageDetail(message: Message): RequestMessageDetail {
             val messageDetailString = Gson().fromJson<TravelMessageBody>(message.body, TravelMessageBody::class.java).Message
             return RequestMessageDetail.fromString(messageDetailString)
+        }
+
+        /**
+         * SQS Messageからレスポンスメッセージ詳細を取得します
+         */
+        fun getResponseMessageDetail(message: Message): ResponseMessageDetail {
+            val messageDetailString = Gson().fromJson<TravelMessageBody>(message.body, TravelMessageBody::class.java).Message
+            return ResponseMessageDetail.fromString(messageDetailString)
         }
     }
 }
@@ -32,7 +36,7 @@ data class TravelMessageBody(
     val Timestamp: String,
 )
 enum class RequestType {
-    Request, Cancel
+    Book, Cancel
 }
 class RequestMessageDetail(val userName: String, val requestType: RequestType) {
     override fun toString() = "$userName:$requestType"

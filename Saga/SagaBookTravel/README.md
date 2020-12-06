@@ -17,6 +17,8 @@ terraform apply
 ```shell
 ./gradlew run --args="TravelAgentSvc"
 ./gradlew run --args="CarRentSvc"
+./gradlew run --args="HotelReservationSvc"
+./gradlew run --args="AirlineReservationSvc"
 ./gradlew run --args="bookTrip user01"
 ```
 
