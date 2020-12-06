@@ -1,4 +1,5 @@
 import com.amazonaws.services.sqs.model.Message
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
 class CarRentService {
@@ -8,11 +9,21 @@ class CarRentService {
             val service = CarRentService()
 
             while(true) {
-                // 車予約のリクエスト
-                service.receiveRequest { bookTripId, requestMessageDetail ->
-                    // 今は全てOK。失敗しない。
+                val requestProcess = fun(bookTripId: String, requestMessageDetail: RequestMessageDetail) {
+                    // 車予約は全てOK。失敗しない。
+                    println("\n\n車の予約を完了しました。 id:$bookTripId")
                     service.replyRentCarMessage(bookTripId, requestMessageDetail, ResponseType.OK)
                 }
+                val cancelRequestProcess = fun(bookTripId: String, requestMessageDetail: RequestMessageDetail) {
+                    // 車キャンセル予約は全てOK。失敗しない。
+                    println("\n\n車の予約キャンセルを完了しました。 id:$bookTripId")
+                    service.replyRentCarMessage(bookTripId, requestMessageDetail, ResponseType.OK)
+                }
+
+                // 車予約のリクエストを受けて処理を行う。
+                service.receiveRequest(requestProcess, cancelRequestProcess)
+
+                delay(500L)
             }
         }
     }
@@ -20,19 +31,26 @@ class CarRentService {
     /**
      * 車予約のリクエストを受信 -> 次の処理
      */
-    private fun receiveRequest(nextProcess: (String, RequestMessageDetail) -> Unit) {
+    private fun receiveRequest(
+        requestProcess: (String, RequestMessageDetail) -> Unit,
+        cancelProcess: (String, RequestMessageDetail) -> Unit
+    ) {
+        // リクエストメッセージを一括受信
         val messages = receiveRentCarMessage()
         messages.forEach {
             val bookTripId = TravelMessageUtil.getBookTripId(it)
             val requestMessageDetail = TravelMessageUtil.getRequestMessageDetail(it)
-            if (requestMessageDetail.requestType == RequestType.Request) {
-                println("\n\n車の予約を受け付けました。 id:$bookTripId")
-            } else {
-                println("\n\n車の予約キャンセルを受け付けました。 id:$bookTripId")
+            when(requestMessageDetail.requestType) {
+                RequestType.Request -> {
+                    println("\n\n車の予約を受け付けました。 id:$bookTripId")
+                    requestProcess(bookTripId, requestMessageDetail)
+                }
+                RequestType.Cancel -> {
+                    println("\n\n車の予約キャンセルを受け付けました。 id:$bookTripId")
+                    cancelProcess(bookTripId, requestMessageDetail)
+                }
             }
-
-            nextProcess(bookTripId, requestMessageDetail)
-
+            // リクエストメッセージの削除
             deleteRentCarMessage(it)
         }
     }
@@ -60,6 +78,5 @@ class CarRentService {
             subject = bookTripId,
             message = ResponseMessageDetail(userName = requestMessageDetail.userName, responseType, requestMessageDetail.requestType).toString()
         )
-        println("\n\n車の予約を完了しました。 id:$bookTripId")
     }
 }
