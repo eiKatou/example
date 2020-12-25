@@ -1,0 +1,18 @@
+cloud:
+  aws:
+    stack:
+      # CloudFormationのstack名を自動収集しない
+      auto: false
+    region:
+      # EC2のmetadataを自動収集しない
+      auto: false
+      static: us-west-2
+    credentials:
+      useDefaultAwsCredentialsChain: true
+      profileName: work
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
