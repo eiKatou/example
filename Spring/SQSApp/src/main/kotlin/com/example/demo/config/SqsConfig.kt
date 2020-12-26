@@ -8,15 +8,12 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class SqsConfig {
-    @Bean
+    @Bean(name = ["sqsAppQueueMessaging"])
     fun queueMessagingTemplate(
         amazonSQSAsync: AmazonSQSAsync?
-    ): QueueMessagingTemplate? {
-//        return QueueMessagingTemplate(amazonSQSAsync, object : ResourceIdResolver {
-//            override fun resolveToPhysicalResourceId(logicalResourceId: String?): String {
-//                return "sqs-app"
-//            }
-//        })
-        return QueueMessagingTemplate(amazonSQSAsync)
+    ): QueueMessagingTemplate {
+        val queueMessagingTemplate = QueueMessagingTemplate(amazonSQSAsync)
+        queueMessagingTemplate.setDefaultDestinationName("sqs-app")
+        return queueMessagingTemplate
     }
 }
