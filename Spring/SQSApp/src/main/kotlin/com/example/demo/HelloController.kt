@@ -14,7 +14,9 @@ class HelloController {
     lateinit var sqsAppQueueMessaging: QueueMessagingTemplate
 
     @RequestMapping(method = [RequestMethod.GET])
-    fun hello() = "hello world."
+    fun hello(): String {
+        return sqsAppQueueMessaging.receiveAndConvert(String::class.java) ?: ""
+    }
 
     @RequestMapping(method = [RequestMethod.POST])
     @ResponseStatus(HttpStatus.CREATED)
