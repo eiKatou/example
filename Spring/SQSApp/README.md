@@ -29,7 +29,7 @@ aws sqs delete-message --queue-url $QUEUE_URL --receipt-handle {ReceiptHandle}
 aws sqs purge-queue --queue-url $QUEUE_URL
 ```
 
-# API
+# 単純なAPI
 ## GETメソッドを呼ぶ
 ```bash
 curl http://localhost:8080/api/hello -v -X GET
@@ -38,4 +38,15 @@ curl http://localhost:8080/api/hello -v -X GET
 ## POSTメソッドを呼ぶ
 ```bash
 curl http://localhost:8080/api/hello -v -X POST -H "Content-Type: application/json" -d "message hello"
+```
+
+# 少し複雑なAPI
+## GETメソッドを呼ぶ
+```bash
+curl http://localhost:8080/api/customers -v -X GET
+```
+
+## POSTメソッドを呼ぶ
+```bash
+curl http://localhost:8080/api/customers -v -X POST -H "Content-Type: application/json" -d "{\"firstName\":\"Tamako\",\"lastName\":\"Nobi\"}"
 ```

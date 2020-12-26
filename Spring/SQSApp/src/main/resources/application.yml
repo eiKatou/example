@@ -10,6 +10,14 @@ cloud:
     credentials:
       useDefaultAwsCredentialsChain: true
       profileName: work
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+
 logging:
   level:
     com:

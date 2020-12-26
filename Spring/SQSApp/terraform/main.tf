@@ -6,8 +6,19 @@ resource "aws_sqs_queue" "main_queue" {
   tags = merge(
     var.tags,
     {
-      Name = "${var.tags.System}-${var.tags.Environment}-sqs"
+      Name = "${var.tags.System}-${var.tags.Environment}-sqsapp"
     },
+  )
+}
+
+resource "aws_sqs_queue" "customer_queue" {
+  name = "customer"
+
+  tags = merge(
+  var.tags,
+  {
+    Name = "${var.tags.System}-${var.tags.Environment}-customer"
+  },
   )
 }
 
@@ -60,7 +71,7 @@ resource "aws_sqs_queue" "main_queue" {
 //}
 //
 output "aws_sqs_url" {
-  value = [aws_sqs_queue.main_queue.id]
+  value = [aws_sqs_queue.main_queue.id, aws_sqs_queue.customer_queue.id]
 }
 //output "aws_sns_arn" {
 //  value = aws_sns_topic.main_topic.id
