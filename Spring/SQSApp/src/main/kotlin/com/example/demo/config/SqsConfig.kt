@@ -6,14 +6,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.cloud.aws.messaging.config.SimpleMessageListenerContainerFactory
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
-
 import org.springframework.core.task.AsyncTaskExecutor
-
-
-
-
-
-
 
 @Configuration
 class SqsConfig {
@@ -40,22 +33,22 @@ class SqsConfig {
         return queueMessagingTemplate
     }
 
-//    @Bean
-//    fun simpleMessageListenerContainerFactory(amazonSQS: AmazonSQSAsync?): SimpleMessageListenerContainerFactory? {
-//        val factory = SimpleMessageListenerContainerFactory()
-//        factory.setAmazonSqs(amazonSQS)
-//        factory.setMaxNumberOfMessages(10)
-//        factory.setTaskExecutor(getAsyncExecutor())
-//        return factory
-//    }
-//
-//    fun getAsyncExecutor(): AsyncTaskExecutor? {
-//        val executor = ThreadPoolTaskExecutor()
-//        executor.corePoolSize = 2
-//        executor.maxPoolSize = 4
-//        executor.setQueueCapacity(3)
-//        executor.setThreadNamePrefix("threadPoolExecutor-SimpleMessageListenerContainer-")
-//        executor.initialize()
-//        return executor
-//    }
+    @Bean
+    fun simpleMessageListenerContainerFactory(amazonSQS: AmazonSQSAsync?): SimpleMessageListenerContainerFactory? {
+        val factory = SimpleMessageListenerContainerFactory()
+        factory.setAmazonSqs(amazonSQS)
+        factory.setMaxNumberOfMessages(10)
+        factory.setTaskExecutor(getAsyncExecutor())
+        return factory
+    }
+
+    fun getAsyncExecutor(): AsyncTaskExecutor? {
+        val executor = ThreadPoolTaskExecutor()
+        executor.corePoolSize = 2
+        executor.maxPoolSize = 5
+        executor.setThreadNamePrefix("threadPoolExecutor-mySimpleMessageListenerContainer-")
+        executor.setQueueCapacity(0)
+        executor.afterPropertiesSet()
+        return executor
+    }
 }
