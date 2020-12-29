@@ -1,8 +1,7 @@
-package com.example.demo
+package com.example.demo.receiver
 
-import com.example.demo.config.SqsConfig
-import com.example.demo.controller.CustomerMessage
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.example.demo.config.MessagingConfig
+import com.example.demo.logic.CustomerMessageLogic
 import org.springframework.cloud.aws.messaging.listener.SqsMessageDeletionPolicy
 import org.springframework.cloud.aws.messaging.listener.annotation.SqsListener
 import org.springframework.messaging.handler.annotation.Header
@@ -10,10 +9,12 @@ import org.springframework.stereotype.Component
 
 @Component
 class CustomerMessageReceiver {
-    @SqsListener(value = [SqsConfig.QUEUE_CUSTOMER], deletionPolicy = SqsMessageDeletionPolicy.ON_SUCCESS)
+    @SqsListener(value = [MessagingConfig.QUEUE_CUSTOMER], deletionPolicy = SqsMessageDeletionPolicy.ON_SUCCESS)
     fun queueListener(message: String, @Header("SenderId") senderId: String) {
-        val customer = jacksonObjectMapper().readValue(message, CustomerMessage::class.java)
-        println(senderId)
+//        println(senderId)
+//        println(message)
+
+        val customer = CustomerMessageLogic.convert(message)
         println(customer)
     }
 }

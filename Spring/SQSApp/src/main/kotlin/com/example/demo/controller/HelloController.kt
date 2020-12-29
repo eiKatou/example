@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("api/hello")
 class HelloController {
     @Autowired
-    @Qualifier("sqsAppQueueMessaging")
+    @Qualifier("friendQueueMessaging")
     lateinit var sqsAppQueueMessaging: QueueMessagingTemplate
 
     @RequestMapping(method = [RequestMethod.GET])
