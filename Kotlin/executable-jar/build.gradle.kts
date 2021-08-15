@@ -24,7 +24,7 @@ tasks.withType<KotlinCompile>() {
 }
 
 application {
-    mainClass.set("MainKt")
+    mainClass.set("com.example.MainKt")
 }
 
 // https://www.jetbrains.com/help/idea/create-your-first-kotlin-app.html#package-as-jar
